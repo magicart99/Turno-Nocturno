@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cuubnxdq4cyrl"]
+
+[ext_resource type="Texture2D" uid="uid://cqnwilihs22px" path="res://escenarios/escenario-prueba.png" id="1_2vj84"]
+[ext_resource type="PackedScene" uid="uid://poe8av86kfv1" path="res://scenes/lalo.tscn" id="2_4nr0a"]
+
+[node name="Escuela" type="Node2D" unique_id=713071664]
+
+[node name="Fondo" type="Sprite2D" parent="." unique_id=1276882161]
+position = Vector2(560, 259)
+texture = ExtResource("1_2vj84")
+
+[node name="Lalo" parent="." unique_id=877459439 instance=ExtResource("2_4nr0a")]
+position = Vector2(308, 246)

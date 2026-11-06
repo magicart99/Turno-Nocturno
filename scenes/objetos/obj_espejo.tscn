@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/objeto.gd" id="R1"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/espejo.png" id="R2"]
+
+[node name="Recurso" type="Node2D"]
+
+
+[node name="Objeto" type="CharacterBody2D" parent="."]
+position = Vector2(0, 0)
+script = ExtResource("R1")
+tipo = "decoracion"
+titulo = "Espejo"
+zona = ""
+motion_mode = 1
+collision_layer = 0
+collision_mask = 1
+
+[node name="Sprite" type="Sprite2D" parent="Objeto"]
+texture = ExtResource("R2")
+scale = Vector2(0.2413793103448276, 0.109375)
+metadata/zona = ""

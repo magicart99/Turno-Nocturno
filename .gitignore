@@ -1,0 +1,17 @@
+# Godot cache and local editor state
+.godot/
+# Local saves and settings
+partidas/
+# Generated outputs
+*.log
+*.tmp
+*.bak
+*.exe
+*.pck
+*.zip
+__pycache__/
+*.pyc
+node_modules/
+.presentacion-build/
+docs/**/guardado_prueba*
+# Preserve .uid and .import metadata alongside sources.

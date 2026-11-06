@@ -1,0 +1,706 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/tilesets/piso_escuela.png" id="1_y6qfy"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/pared.png" id="2_2x3en"]
+[ext_resource type="Script" path="res://src/world/objeto.gd" id="3_0kmk7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/puerta_cerrada.png" id="4_38dl5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/interruptor.png" id="5_aa0ot"]
+[ext_resource type="Texture2D" path="res://assets/sprites/lampara_encendida.png" id="6_4fkr1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pizarron.png" id="7_afi3x"]
+[ext_resource type="Texture2D" path="res://assets/sprites/escritorio.png" id="8_6wwli"]
+[ext_resource type="Texture2D" path="res://assets/sprites/mesa_alumno.png" id="9_5lbwu"]
+[ext_resource type="Texture2D" path="res://assets/sprites/silla.png" id="10_etqsx"]
+[ext_resource type="Texture2D" path="res://assets/sprites/papelera.png" id="11_4t5o3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/reloj.png" id="12_is72g"]
+
+[sub_resource type="RectangleShape2D" id="S171"]
+size = Vector2(12, 448)
+
+[sub_resource type="OccluderPolygon2D" id="O85"]
+polygon = PackedVector2Array(-6, -224, 6, -224, 6, 224, -6, 224)
+
+[sub_resource type="RectangleShape2D" id="S173"]
+size = Vector2(12, 448)
+
+[sub_resource type="OccluderPolygon2D" id="O86"]
+polygon = PackedVector2Array(-6, -224, 6, -224, 6, 224, -6, 224)
+
+[sub_resource type="RectangleShape2D" id="S175"]
+size = Vector2(384, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O87"]
+polygon = PackedVector2Array(-192, -6, 192, -6, 192, 6, -192, 6)
+
+[sub_resource type="RectangleShape2D" id="S177"]
+size = Vector2(144, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O88"]
+polygon = PackedVector2Array(-72, -6, 72, -6, 72, 6, -72, 6)
+
+[sub_resource type="RectangleShape2D" id="S179"]
+size = Vector2(144, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O89"]
+polygon = PackedVector2Array(-72, -6, 72, -6, 72, 6, -72, 6)
+
+[sub_resource type="RectangleShape2D" id="S501"]
+size = Vector2(96, 18)
+
+[sub_resource type="RectangleShape2D" id="S502"]
+size = Vector2(81.4, 28.8)
+
+[sub_resource type="RectangleShape2D" id="S503"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S504"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S505"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S506"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S507"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S508"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S509"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S510"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S511"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S512"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S513"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S514"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S515"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S516"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S517"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S518"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S519"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S520"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S521"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S522"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S523"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S524"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S525"]
+size = Vector2(42.92, 22.08)
+
+[sub_resource type="RectangleShape2D" id="S526"]
+size = Vector2(22.2, 15.36)
+
+[sub_resource type="RectangleShape2D" id="S527"]
+size = Vector2(22.2, 18.24)
+
+[sub_resource type="Gradient" id="Grad"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.7, 0.8, 1, 0.6, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="Luz"]
+gradient = SubResource("Grad")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Aula_09" type="Node2D" unique_id=1913826280]
+
+[node name="Pisos" type="Node2D" parent="." unique_id=805801493]
+
+[node name="Aula_09" type="Sprite2D" parent="Pisos" unique_id=1479884589]
+texture_repeat = 2
+texture = ExtResource("1_y6qfy")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 384, 448)
+
+[node name="Paredes" type="Node2D" parent="." unique_id=476229247]
+
+[node name="Muro85" type="StaticBody2D" parent="Paredes" unique_id=1654326956]
+position = Vector2(6, 224)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro85" unique_id=1706048111]
+shape = SubResource("S171")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro85" unique_id=1087036851]
+texture_repeat = 2
+position = Vector2(-6, -224)
+texture = ExtResource("2_2x3en")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 12, 448)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro85" unique_id=1464859630]
+occluder = SubResource("O85")
+
+[node name="Muro86" type="StaticBody2D" parent="Paredes" unique_id=755704905]
+position = Vector2(378, 224)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro86" unique_id=977959399]
+shape = SubResource("S173")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro86" unique_id=1609821674]
+texture_repeat = 2
+position = Vector2(-6, -224)
+texture = ExtResource("2_2x3en")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 12, 448)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro86" unique_id=512589960]
+occluder = SubResource("O86")
+
+[node name="Muro87" type="StaticBody2D" parent="Paredes" unique_id=1817612713]
+position = Vector2(192, 442)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro87" unique_id=1343084224]
+shape = SubResource("S175")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro87" unique_id=836946247]
+texture_repeat = 2
+position = Vector2(-192, -6)
+texture = ExtResource("2_2x3en")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 384, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro87" unique_id=567968248]
+occluder = SubResource("O87")
+
+[node name="Muro88" type="StaticBody2D" parent="Paredes" unique_id=914973509]
+position = Vector2(72, 6)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro88" unique_id=1733847616]
+shape = SubResource("S177")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro88" unique_id=1302920315]
+texture_repeat = 2
+position = Vector2(-72, -6)
+texture = ExtResource("2_2x3en")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 144, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro88" unique_id=417321149]
+occluder = SubResource("O88")
+
+[node name="Muro89" type="StaticBody2D" parent="Paredes" unique_id=458860784]
+position = Vector2(312, 6)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro89" unique_id=1905924625]
+shape = SubResource("S179")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro89" unique_id=1342029012]
+texture_repeat = 2
+position = Vector2(-72, -6)
+texture = ExtResource("2_2x3en")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 144, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro89" unique_id=1131953938]
+occluder = SubResource("O89")
+
+[node name="Objetos" type="Node2D" parent="." unique_id=787869461]
+
+[node name="puerta_cerrada_370" type="CharacterBody2D" parent="Objetos" unique_id=857185830]
+position = Vector2(192, 12)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "puerta"
+titulo = "Puerta: Aula_09"
+zona = "Aula_09"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/puerta_cerrada_370" unique_id=830939577]
+scale = Vector2(0.49746192, 0.2734375)
+texture = ExtResource("4_38dl5")
+metadata/zona = "Aula_09"
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/puerta_cerrada_370" unique_id=2113596360]
+shape = SubResource("S501")
+
+[node name="interruptor_371" type="CharacterBody2D" parent="Objetos" unique_id=1717916644]
+position = Vector2(267, 42)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "interruptor"
+titulo = "Luz: Aula_09"
+zona = "Aula_09"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/interruptor_371" unique_id=416449609]
+scale = Vector2(0.13978495, 0.125)
+texture = ExtResource("5_aa0ot")
+metadata/zona = "Aula_09"
+
+[node name="lampara_encendida_372" type="CharacterBody2D" parent="Objetos" unique_id=203028418]
+position = Vector2(192, 22)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+titulo = "Lampara encendida"
+zona = "Aula_09"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/lampara_encendida_372" unique_id=1331200933 groups=["lamparas"]]
+scale = Vector2(0.375, 0.19607843)
+texture = ExtResource("6_4fkr1")
+metadata/zona = "Aula_09"
+
+[node name="pizarron_373" type="CharacterBody2D" parent="Objetos" unique_id=1953337770]
+position = Vector2(192, 65)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+titulo = "Pizarron"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/pizarron_373" unique_id=334508873]
+scale = Vector2(0.6328125, 0.25510204)
+texture = ExtResource("7_afi3x")
+metadata/zona = ""
+
+[node name="escritorio_374" type="CharacterBody2D" parent="Objetos" unique_id=2904306]
+position = Vector2(92, 125)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "escondite"
+titulo = "Escritorio: ocultarse"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/escritorio_374" unique_id=1611840639]
+scale = Vector2(0.4296875, 0.2739726)
+texture = ExtResource("8_6wwli")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/escritorio_374" unique_id=319677248]
+shape = SubResource("S502")
+
+[node name="mesa_alumno_375" type="CharacterBody2D" parent="Objetos" unique_id=25596334]
+position = Vector2(60, 192)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_375" unique_id=926799068]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_375" unique_id=387926757]
+shape = SubResource("S503")
+
+[node name="silla_376" type="CharacterBody2D" parent="Objetos" unique_id=747242675]
+position = Vector2(60, 222)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_376" unique_id=1742170071]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_376" unique_id=129298512]
+shape = SubResource("S504")
+
+[node name="mesa_alumno_377" type="CharacterBody2D" parent="Objetos" unique_id=2012789196]
+position = Vector2(147, 192)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_377" unique_id=1896640420]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_377" unique_id=924737688]
+shape = SubResource("S505")
+
+[node name="silla_378" type="CharacterBody2D" parent="Objetos" unique_id=728612979]
+position = Vector2(147, 222)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_378" unique_id=1203878713]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_378" unique_id=1974718263]
+shape = SubResource("S506")
+
+[node name="mesa_alumno_379" type="CharacterBody2D" parent="Objetos" unique_id=465776814]
+position = Vector2(234, 192)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_379" unique_id=1419781898]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_379" unique_id=366905974]
+shape = SubResource("S507")
+
+[node name="silla_380" type="CharacterBody2D" parent="Objetos" unique_id=1991831241]
+position = Vector2(234, 222)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_380" unique_id=969128597]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_380" unique_id=412641005]
+shape = SubResource("S508")
+
+[node name="mesa_alumno_381" type="CharacterBody2D" parent="Objetos" unique_id=1466652095]
+position = Vector2(321, 192)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_381" unique_id=100805633]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_381" unique_id=603060368]
+shape = SubResource("S509")
+
+[node name="silla_382" type="CharacterBody2D" parent="Objetos" unique_id=1257122613]
+position = Vector2(321, 222)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_382" unique_id=1198573466]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_382" unique_id=1721022087]
+shape = SubResource("S510")
+
+[node name="mesa_alumno_383" type="CharacterBody2D" parent="Objetos" unique_id=1889382666]
+position = Vector2(60, 264)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_383" unique_id=417580028]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_383" unique_id=1254744031]
+shape = SubResource("S511")
+
+[node name="silla_384" type="CharacterBody2D" parent="Objetos" unique_id=75345958]
+position = Vector2(60, 294)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_384" unique_id=362880747]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_384" unique_id=1679443763]
+shape = SubResource("S512")
+
+[node name="mesa_alumno_385" type="CharacterBody2D" parent="Objetos" unique_id=2111309535]
+position = Vector2(147, 264)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_385" unique_id=313327236]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_385" unique_id=804466450]
+shape = SubResource("S513")
+
+[node name="silla_386" type="CharacterBody2D" parent="Objetos" unique_id=1205346882]
+position = Vector2(147, 294)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_386" unique_id=389565416]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_386" unique_id=2125717021]
+shape = SubResource("S514")
+
+[node name="mesa_alumno_387" type="CharacterBody2D" parent="Objetos" unique_id=541943731]
+position = Vector2(234, 264)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_387" unique_id=831814286]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_387" unique_id=252091505]
+shape = SubResource("S515")
+
+[node name="silla_388" type="CharacterBody2D" parent="Objetos" unique_id=130423939]
+position = Vector2(234, 294)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_388" unique_id=1394473955]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_388" unique_id=1490411645]
+shape = SubResource("S516")
+
+[node name="mesa_alumno_389" type="CharacterBody2D" parent="Objetos" unique_id=354363104]
+position = Vector2(321, 264)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_389" unique_id=288194121]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_389" unique_id=1852904287]
+shape = SubResource("S517")
+
+[node name="silla_390" type="CharacterBody2D" parent="Objetos" unique_id=899548443]
+position = Vector2(321, 294)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_390" unique_id=351152721]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_390" unique_id=326258519]
+shape = SubResource("S518")
+
+[node name="mesa_alumno_391" type="CharacterBody2D" parent="Objetos" unique_id=641614684]
+position = Vector2(60, 336)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_391" unique_id=1774412587]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_391" unique_id=1649575270]
+shape = SubResource("S519")
+
+[node name="silla_392" type="CharacterBody2D" parent="Objetos" unique_id=1207119664]
+position = Vector2(60, 366)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_392" unique_id=1845517761]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_392" unique_id=96947101]
+shape = SubResource("S520")
+
+[node name="mesa_alumno_393" type="CharacterBody2D" parent="Objetos" unique_id=1641364971]
+position = Vector2(147, 336)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_393" unique_id=234465152]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_393" unique_id=999630161]
+shape = SubResource("S521")
+
+[node name="silla_394" type="CharacterBody2D" parent="Objetos" unique_id=277802304]
+position = Vector2(147, 366)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_394" unique_id=168548159]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_394" unique_id=2072272791]
+shape = SubResource("S522")
+
+[node name="mesa_alumno_395" type="CharacterBody2D" parent="Objetos" unique_id=1308395299]
+position = Vector2(234, 336)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_395" unique_id=1937356876]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_395" unique_id=824319928]
+shape = SubResource("S523")
+
+[node name="silla_396" type="CharacterBody2D" parent="Objetos" unique_id=1116705453]
+position = Vector2(234, 366)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_396" unique_id=700276709]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_396" unique_id=1763699177]
+shape = SubResource("S524")
+
+[node name="mesa_alumno_397" type="CharacterBody2D" parent="Objetos" unique_id=563512315]
+position = Vector2(321, 336)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Mesa escolar"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mesa_alumno_397" unique_id=1099166150]
+scale = Vector2(0.23387097, 0.1796875)
+texture = ExtResource("9_5lbwu")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mesa_alumno_397" unique_id=1284123491]
+shape = SubResource("S525")
+
+[node name="silla_398" type="CharacterBody2D" parent="Objetos" unique_id=2008570991]
+position = Vector2(321, 366)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+tipo = "empujar"
+titulo = "Silla"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/silla_398" unique_id=219641607]
+scale = Vector2(0.17964073, 0.125)
+texture = ExtResource("10_etqsx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/silla_398" unique_id=926264582]
+shape = SubResource("S526")
+
+[node name="papelera_399" type="CharacterBody2D" parent="Objetos" unique_id=2054251459]
+position = Vector2(344, 390)
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+titulo = "Papelera"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/papelera_399" unique_id=782766029]
+scale = Vector2(0.14705883, 0.1484375)
+texture = ExtResource("11_4t5o3")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/papelera_399" unique_id=1918811167]
+shape = SubResource("S527")
+
+[node name="reloj_400" type="CharacterBody2D" parent="Objetos" unique_id=769791233]
+position = Vector2(330, 48)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_0kmk7")
+titulo = "Reloj"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/reloj_400" unique_id=1967053693]
+scale = Vector2(0.10980392, 0.109375)
+texture = ExtResource("12_is72g")
+metadata/zona = ""
+
+[node name="Iluminacion" type="Node2D" parent="." unique_id=271325725]
+
+[node name="Luz13" type="PointLight2D" parent="Iluminacion" unique_id=624767492 groups=["luces_zona"]]
+position = Vector2(192, 224)
+color = Color(0.65, 0.82, 1, 1)
+energy = 1.3
+shadow_enabled = true
+texture = SubResource("Luz")
+texture_scale = 0.93333334
+metadata/zona = "Aula_09"
+
+[node name="Rotulos" type="Node2D" parent="." unique_id=698431997]

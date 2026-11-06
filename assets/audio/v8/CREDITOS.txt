@@ -1,0 +1,6 @@
+Ghost Monster Voice Moaning Growling
+Autor: qubodup
+Licencia: CC0 (dominio público).
+Fuente: https://opengameart.org/content/ghost-monster-voice-moaning-growling
+Archivo original: qubodup-GhostMoans.zip
+eco_1.mp3 a eco_5.mp3: originales MP3, sin modificaciones; volumen espacial ajustado en Godot.

@@ -1,0 +1,688 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/tilesets/piso_bano.png" id="1_b8g0m"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/pared.png" id="2_ouwk4"]
+[ext_resource type="Script" path="res://src/world/objeto.gd" id="3_rqdjc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/puerta_cerrada.png" id="4_grk0y"]
+[ext_resource type="Texture2D" path="res://assets/sprites/interruptor.png" id="5_g6542"]
+[ext_resource type="Texture2D" path="res://assets/sprites/lampara_encendida.png" id="6_bfdy0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/inodoro.png" id="7_m5kxl"]
+[ext_resource type="Texture2D" path="res://assets/sprites/puerta_cubiculo.png" id="8_ghjdx"]
+[ext_resource type="Texture2D" path="res://assets/sprites/lavamanos.png" id="9_l8tym"]
+[ext_resource type="Texture2D" path="res://assets/sprites/espejo.png" id="10_g8aet"]
+[ext_resource type="Texture2D" path="res://assets/sprites/mingitorio.png" id="11_kgqok"]
+[ext_resource type="Texture2D" path="res://assets/sprites/papelera.png" id="12_6jpq6"]
+
+[sub_resource type="RectangleShape2D" id="S71"]
+size = Vector2(12, 448)
+
+[sub_resource type="OccluderPolygon2D" id="O35"]
+polygon = PackedVector2Array(-6, -224, 6, -224, 6, 224, -6, 224)
+
+[sub_resource type="RectangleShape2D" id="S73"]
+size = Vector2(12, 448)
+
+[sub_resource type="OccluderPolygon2D" id="O36"]
+polygon = PackedVector2Array(-6, -224, 6, -224, 6, 224, -6, 224)
+
+[sub_resource type="RectangleShape2D" id="S75"]
+size = Vector2(576, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O37"]
+polygon = PackedVector2Array(-288, -6, 288, -6, 288, 6, -288, 6)
+
+[sub_resource type="RectangleShape2D" id="S77"]
+size = Vector2(240, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O38"]
+polygon = PackedVector2Array(-120, -6, 120, -6, 120, 6, -120, 6)
+
+[sub_resource type="RectangleShape2D" id="S79"]
+size = Vector2(240, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O39"]
+polygon = PackedVector2Array(-120, -6, 120, -6, 120, 6, -120, 6)
+
+[sub_resource type="RectangleShape2D" id="S81"]
+size = Vector2(8, 172)
+
+[sub_resource type="OccluderPolygon2D" id="O40"]
+polygon = PackedVector2Array(-4, -86, 4, -86, 4, 86, -4, 86)
+
+[sub_resource type="RectangleShape2D" id="S83"]
+size = Vector2(8, 172)
+
+[sub_resource type="OccluderPolygon2D" id="O41"]
+polygon = PackedVector2Array(-4, -86, 4, -86, 4, 86, -4, 86)
+
+[sub_resource type="RectangleShape2D" id="S85"]
+size = Vector2(27, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O42"]
+polygon = PackedVector2Array(-13.5, -6, 13.5, -6, 13.5, 6, -13.5, 6)
+
+[sub_resource type="RectangleShape2D" id="S87"]
+size = Vector2(27, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O43"]
+polygon = PackedVector2Array(-13.5, -6, 13.5, -6, 13.5, 6, -13.5, 6)
+
+[sub_resource type="RectangleShape2D" id="S89"]
+size = Vector2(8, 172)
+
+[sub_resource type="OccluderPolygon2D" id="O44"]
+polygon = PackedVector2Array(-4, -86, 4, -86, 4, 86, -4, 86)
+
+[sub_resource type="RectangleShape2D" id="S91"]
+size = Vector2(27, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O45"]
+polygon = PackedVector2Array(-13.5, -6, 13.5, -6, 13.5, 6, -13.5, 6)
+
+[sub_resource type="RectangleShape2D" id="S93"]
+size = Vector2(27, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O46"]
+polygon = PackedVector2Array(-13.5, -6, 13.5, -6, 13.5, 6, -13.5, 6)
+
+[sub_resource type="RectangleShape2D" id="S95"]
+size = Vector2(8, 172)
+
+[sub_resource type="OccluderPolygon2D" id="O47"]
+polygon = PackedVector2Array(-4, -86, 4, -86, 4, 86, -4, 86)
+
+[sub_resource type="RectangleShape2D" id="S97"]
+size = Vector2(27, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O48"]
+polygon = PackedVector2Array(-13.5, -6, 13.5, -6, 13.5, 6, -13.5, 6)
+
+[sub_resource type="RectangleShape2D" id="S99"]
+size = Vector2(27, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O49"]
+polygon = PackedVector2Array(-13.5, -6, 13.5, -6, 13.5, 6, -13.5, 6)
+
+[sub_resource type="RectangleShape2D" id="S404"]
+size = Vector2(96, 18)
+
+[sub_resource type="RectangleShape2D" id="S405"]
+size = Vector2(44.4, 38.4)
+
+[sub_resource type="RectangleShape2D" id="S406"]
+size = Vector2(96, 18)
+
+[sub_resource type="RectangleShape2D" id="S407"]
+size = Vector2(44.4, 38.4)
+
+[sub_resource type="RectangleShape2D" id="S408"]
+size = Vector2(96, 18)
+
+[sub_resource type="RectangleShape2D" id="S409"]
+size = Vector2(44.4, 38.4)
+
+[sub_resource type="RectangleShape2D" id="S410"]
+size = Vector2(96, 18)
+
+[sub_resource type="RectangleShape2D" id="S411"]
+size = Vector2(45.88, 23.04)
+
+[sub_resource type="RectangleShape2D" id="S412"]
+size = Vector2(45.88, 23.04)
+
+[sub_resource type="RectangleShape2D" id="S413"]
+size = Vector2(45.88, 23.04)
+
+[sub_resource type="RectangleShape2D" id="S414"]
+size = Vector2(32.56, 28.8)
+
+[sub_resource type="RectangleShape2D" id="S415"]
+size = Vector2(32.56, 28.8)
+
+[sub_resource type="RectangleShape2D" id="S416"]
+size = Vector2(22.2, 16.8)
+
+[sub_resource type="Gradient" id="Grad"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.7, 0.8, 1, 0.6, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="Luz"]
+gradient = SubResource("Grad")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Bano_H" type="Node2D" unique_id=1493997086]
+
+[node name="Pisos" type="Node2D" parent="." unique_id=1758407030]
+
+[node name="Bano_H" type="Sprite2D" parent="Pisos" unique_id=1748499561]
+texture_repeat = 2
+texture = ExtResource("1_b8g0m")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 576, 448)
+
+[node name="Paredes" type="Node2D" parent="." unique_id=1861909159]
+
+[node name="Muro35" type="StaticBody2D" parent="Paredes" unique_id=694441683]
+position = Vector2(6, 224)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro35" unique_id=1202467802]
+shape = SubResource("S71")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro35" unique_id=1839907593]
+texture_repeat = 2
+position = Vector2(-6, -224)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 12, 448)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro35" unique_id=1565313117]
+occluder = SubResource("O35")
+
+[node name="Muro36" type="StaticBody2D" parent="Paredes" unique_id=2111718722]
+position = Vector2(570, 224)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro36" unique_id=503764742]
+shape = SubResource("S73")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro36" unique_id=1907788650]
+texture_repeat = 2
+position = Vector2(-6, -224)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 12, 448)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro36" unique_id=1317040304]
+occluder = SubResource("O36")
+
+[node name="Muro37" type="StaticBody2D" parent="Paredes" unique_id=336213111]
+position = Vector2(288, 6)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro37" unique_id=471097845]
+shape = SubResource("S75")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro37" unique_id=671514681]
+texture_repeat = 2
+position = Vector2(-288, -6)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 576, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro37" unique_id=1870585945]
+occluder = SubResource("O37")
+
+[node name="Muro38" type="StaticBody2D" parent="Paredes" unique_id=128531162]
+position = Vector2(120, 442)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro38" unique_id=1148731082]
+shape = SubResource("S77")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro38" unique_id=1887079965]
+texture_repeat = 2
+position = Vector2(-120, -6)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 240, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro38" unique_id=1049614698]
+occluder = SubResource("O38")
+
+[node name="Muro39" type="StaticBody2D" parent="Paredes" unique_id=1998340306]
+position = Vector2(456, 442)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro39" unique_id=1193884487]
+shape = SubResource("S79")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro39" unique_id=725013302]
+texture_repeat = 2
+position = Vector2(-120, -6)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 240, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro39" unique_id=1109892339]
+occluder = SubResource("O39")
+
+[node name="Muro40" type="StaticBody2D" parent="Paredes" unique_id=1307548704]
+position = Vector2(169, 98)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro40" unique_id=232621368]
+shape = SubResource("S81")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro40" unique_id=368517080]
+texture_repeat = 2
+position = Vector2(-4, -86)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 172)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro40" unique_id=519932011]
+occluder = SubResource("O40")
+
+[node name="Muro41" type="StaticBody2D" parent="Paredes" unique_id=1171875112]
+position = Vector2(19, 98)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro41" unique_id=1926681702]
+shape = SubResource("S83")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro41" unique_id=440471331]
+texture_repeat = 2
+position = Vector2(-4, -86)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 172)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro41" unique_id=868814449]
+occluder = SubResource("O41")
+
+[node name="Muro42" type="StaticBody2D" parent="Paredes" unique_id=1054387089]
+position = Vector2(28.5, 184)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro42" unique_id=189301302]
+shape = SubResource("S85")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro42" unique_id=2027263134]
+texture_repeat = 2
+position = Vector2(-13.5, -6)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 27, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro42" unique_id=51870144]
+occluder = SubResource("O42")
+
+[node name="Muro43" type="StaticBody2D" parent="Paredes" unique_id=908949522]
+position = Vector2(151.5, 184)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro43" unique_id=312369628]
+shape = SubResource("S87")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro43" unique_id=1101987317]
+texture_repeat = 2
+position = Vector2(-13.5, -6)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 27, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro43" unique_id=225557186]
+occluder = SubResource("O43")
+
+[node name="Muro44" type="StaticBody2D" parent="Paredes" unique_id=511881928]
+position = Vector2(319, 98)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro44" unique_id=807404375]
+shape = SubResource("S89")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro44" unique_id=1764575126]
+texture_repeat = 2
+position = Vector2(-4, -86)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 172)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro44" unique_id=867632503]
+occluder = SubResource("O44")
+
+[node name="Muro45" type="StaticBody2D" parent="Paredes" unique_id=64082145]
+position = Vector2(178.5, 184)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro45" unique_id=967442308]
+shape = SubResource("S91")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro45" unique_id=1845505493]
+texture_repeat = 2
+position = Vector2(-13.5, -6)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 27, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro45" unique_id=2005027423]
+occluder = SubResource("O45")
+
+[node name="Muro46" type="StaticBody2D" parent="Paredes" unique_id=1896694992]
+position = Vector2(301.5, 184)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro46" unique_id=1114608359]
+shape = SubResource("S93")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro46" unique_id=2061523859]
+texture_repeat = 2
+position = Vector2(-13.5, -6)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 27, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro46" unique_id=997022485]
+occluder = SubResource("O46")
+
+[node name="Muro47" type="StaticBody2D" parent="Paredes" unique_id=1064397223]
+position = Vector2(469, 98)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro47" unique_id=294774144]
+shape = SubResource("S95")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro47" unique_id=60544133]
+texture_repeat = 2
+position = Vector2(-4, -86)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 172)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro47" unique_id=2120955097]
+occluder = SubResource("O47")
+
+[node name="Muro48" type="StaticBody2D" parent="Paredes" unique_id=559078865]
+position = Vector2(328.5, 184)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro48" unique_id=2063638783]
+shape = SubResource("S97")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro48" unique_id=1103275598]
+texture_repeat = 2
+position = Vector2(-13.5, -6)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 27, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro48" unique_id=658902364]
+occluder = SubResource("O48")
+
+[node name="Muro49" type="StaticBody2D" parent="Paredes" unique_id=21384359]
+position = Vector2(451.5, 184)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro49" unique_id=1199637162]
+shape = SubResource("S99")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro49" unique_id=446354449]
+texture_repeat = 2
+position = Vector2(-13.5, -6)
+texture = ExtResource("2_ouwk4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 27, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro49" unique_id=1561297137]
+occluder = SubResource("O49")
+
+[node name="Objetos" type="Node2D" parent="." unique_id=1943623181]
+
+[node name="puerta_cerrada_217" type="CharacterBody2D" parent="Objetos" unique_id=980343040]
+position = Vector2(288, 436)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+tipo = "puerta"
+titulo = "Puerta: Bano_H"
+zona = "Bano_H"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/puerta_cerrada_217" unique_id=1137105147]
+scale = Vector2(0.49746192, 0.2734375)
+texture = ExtResource("4_grk0y")
+metadata/zona = "Bano_H"
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/puerta_cerrada_217" unique_id=1316915726]
+shape = SubResource("S404")
+
+[node name="interruptor_218" type="CharacterBody2D" parent="Objetos" unique_id=1244767019]
+position = Vector2(363, 406)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+tipo = "interruptor"
+titulo = "Luz: Bano_H"
+zona = "Bano_H"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/interruptor_218" unique_id=1420919865]
+scale = Vector2(0.13978495, 0.125)
+texture = ExtResource("5_g6542")
+metadata/zona = "Bano_H"
+
+[node name="lampara_encendida_219" type="CharacterBody2D" parent="Objetos" unique_id=785292537]
+position = Vector2(288, 22)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Lampara encendida"
+zona = "Bano_H"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/lampara_encendida_219" unique_id=1186245572 groups=["lamparas"]]
+scale = Vector2(0.375, 0.19607843)
+texture = ExtResource("6_bfdy0")
+metadata/zona = "Bano_H"
+
+[node name="inodoro_220" type="CharacterBody2D" parent="Objetos" unique_id=1188086423]
+position = Vector2(90, 94)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Inodoro"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/inodoro_220" unique_id=2110505752]
+scale = Vector2(0.3529412, 0.3125)
+texture = ExtResource("7_m5kxl")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/inodoro_220" unique_id=1435012909]
+shape = SubResource("S405")
+
+[node name="puerta_cubiculo_221" type="CharacterBody2D" parent="Objetos" unique_id=1813655600]
+position = Vector2(90, 184)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+tipo = "puerta"
+titulo = "Puerta de cubiculo"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/puerta_cubiculo_221" unique_id=263737310]
+scale = Vector2(0.5076142, 0.2578125)
+texture = ExtResource("8_ghjdx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/puerta_cubiculo_221" unique_id=614009392]
+shape = SubResource("S406")
+
+[node name="inodoro_222" type="CharacterBody2D" parent="Objetos" unique_id=1757936917]
+position = Vector2(240, 94)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Inodoro"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/inodoro_222" unique_id=628345911]
+scale = Vector2(0.3529412, 0.3125)
+texture = ExtResource("7_m5kxl")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/inodoro_222" unique_id=522922878]
+shape = SubResource("S407")
+
+[node name="puerta_cubiculo_223" type="CharacterBody2D" parent="Objetos" unique_id=1870297557]
+position = Vector2(240, 184)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+tipo = "puerta"
+titulo = "Puerta de cubiculo"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/puerta_cubiculo_223" unique_id=222180862]
+scale = Vector2(0.5076142, 0.2578125)
+texture = ExtResource("8_ghjdx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/puerta_cubiculo_223" unique_id=288463179]
+shape = SubResource("S408")
+
+[node name="inodoro_224" type="CharacterBody2D" parent="Objetos" unique_id=117101580]
+position = Vector2(390, 94)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Inodoro"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/inodoro_224" unique_id=1603326888]
+scale = Vector2(0.3529412, 0.3125)
+texture = ExtResource("7_m5kxl")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/inodoro_224" unique_id=282812534]
+shape = SubResource("S409")
+
+[node name="puerta_cubiculo_225" type="CharacterBody2D" parent="Objetos" unique_id=1929847490]
+position = Vector2(390, 184)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+tipo = "puerta"
+titulo = "Puerta de cubiculo"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/puerta_cubiculo_225" unique_id=701354718]
+scale = Vector2(0.5076142, 0.2578125)
+texture = ExtResource("8_ghjdx")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/puerta_cubiculo_225" unique_id=1749591249]
+shape = SubResource("S410")
+
+[node name="lavamanos_226" type="CharacterBody2D" parent="Objetos" unique_id=1298996639]
+position = Vector2(70, 332)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Lavamanos"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/lavamanos_226" unique_id=1833113333]
+scale = Vector2(0.2421875, 0.20083682)
+texture = ExtResource("9_l8tym")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/lavamanos_226" unique_id=1656827351]
+shape = SubResource("S411")
+
+[node name="espejo_227" type="CharacterBody2D" parent="Objetos" unique_id=2060417526]
+position = Vector2(70, 288)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Espejo"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/espejo_227" unique_id=1188744734]
+scale = Vector2(0.2413793, 0.109375)
+texture = ExtResource("10_g8aet")
+metadata/zona = ""
+
+[node name="lavamanos_228" type="CharacterBody2D" parent="Objetos" unique_id=1588445044]
+position = Vector2(195, 332)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Lavamanos"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/lavamanos_228" unique_id=1778792302]
+scale = Vector2(0.2421875, 0.20083682)
+texture = ExtResource("9_l8tym")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/lavamanos_228" unique_id=910978124]
+shape = SubResource("S412")
+
+[node name="espejo_229" type="CharacterBody2D" parent="Objetos" unique_id=1321690690]
+position = Vector2(195, 288)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Espejo"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/espejo_229" unique_id=1531429423]
+scale = Vector2(0.2413793, 0.109375)
+texture = ExtResource("10_g8aet")
+metadata/zona = ""
+
+[node name="lavamanos_230" type="CharacterBody2D" parent="Objetos" unique_id=2131589772]
+position = Vector2(320, 332)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Lavamanos"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/lavamanos_230" unique_id=1287199249]
+scale = Vector2(0.2421875, 0.20083682)
+texture = ExtResource("9_l8tym")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/lavamanos_230" unique_id=391390407]
+shape = SubResource("S413")
+
+[node name="espejo_231" type="CharacterBody2D" parent="Objetos" unique_id=533945171]
+position = Vector2(320, 288)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Espejo"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/espejo_231" unique_id=1508580393]
+scale = Vector2(0.2413793, 0.109375)
+texture = ExtResource("10_g8aet")
+metadata/zona = ""
+
+[node name="mingitorio_232" type="CharacterBody2D" parent="Objetos" unique_id=1889890394]
+position = Vector2(510, 255)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Mingitorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mingitorio_232" unique_id=1923809015]
+scale = Vector2(0.34375, 0.234375)
+texture = ExtResource("11_kgqok")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mingitorio_232" unique_id=1736519642]
+shape = SubResource("S414")
+
+[node name="mingitorio_233" type="CharacterBody2D" parent="Objetos" unique_id=1074846794]
+position = Vector2(510, 343)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Mingitorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/mingitorio_233" unique_id=1964019058]
+scale = Vector2(0.34375, 0.234375)
+texture = ExtResource("11_kgqok")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/mingitorio_233" unique_id=322983814]
+shape = SubResource("S415")
+
+[node name="papelera_234" type="CharacterBody2D" parent="Objetos" unique_id=820995751]
+position = Vector2(510, 390)
+motion_mode = 1
+script = ExtResource("3_rqdjc")
+titulo = "Papelera"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/papelera_234" unique_id=475357254]
+scale = Vector2(0.14705883, 0.13671875)
+texture = ExtResource("12_6jpq6")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/papelera_234" unique_id=1616549838]
+shape = SubResource("S416")
+
+[node name="Iluminacion" type="Node2D" parent="." unique_id=1342367972]
+
+[node name="Luz7" type="PointLight2D" parent="Iluminacion" unique_id=1487669355 groups=["luces_zona"]]
+position = Vector2(288, 224)
+color = Color(0.65, 0.82, 1, 1)
+energy = 1.3
+shadow_enabled = true
+texture = SubResource("Luz")
+texture_scale = 1.2
+metadata/zona = "Bano_H"
+
+[node name="Rotulos" type="Node2D" parent="." unique_id=46852121]

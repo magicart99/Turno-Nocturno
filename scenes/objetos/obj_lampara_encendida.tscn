@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/objeto.gd" id="R1"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/lampara_encendida.png" id="R2"]
+
+[node name="Recurso" type="Node2D"]
+
+
+[node name="Objeto" type="CharacterBody2D" parent="."]
+position = Vector2(0, 0)
+script = ExtResource("R1")
+tipo = "decoracion"
+titulo = "Lampara encendida"
+zona = "Aula_01"
+motion_mode = 1
+collision_layer = 0
+collision_mask = 1
+
+[node name="Sprite" type="Sprite2D" parent="Objeto" groups=["lamparas"]]
+texture = ExtResource("R2")
+scale = Vector2(0.375, 0.19607843137254902)
+metadata/zona = "Aula_01"

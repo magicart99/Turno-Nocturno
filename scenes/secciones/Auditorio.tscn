@@ -1,0 +1,404 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/tilesets/piso_madera.png" id="1_0vcr4"]
+[ext_resource type="Texture2D" path="res://assets/tilesets/pared.png" id="2_8nysi"]
+[ext_resource type="Script" path="res://src/world/objeto.gd" id="3_gjpt7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/puerta_cerrada.png" id="4_squej"]
+[ext_resource type="Texture2D" path="res://assets/sprites/interruptor.png" id="5_rub6r"]
+[ext_resource type="Texture2D" path="res://assets/sprites/lampara_encendida.png" id="6_rik1d"]
+[ext_resource type="Texture2D" path="res://assets/sprites/escritorio.png" id="7_xgjer"]
+[ext_resource type="Texture2D" path="res://assets/sprites/pizarron.png" id="8_qnxen"]
+[ext_resource type="Texture2D" path="res://assets/sprites/banco.png" id="9_htkng"]
+
+[sub_resource type="RectangleShape2D" id="S151"]
+size = Vector2(12, 448)
+
+[sub_resource type="OccluderPolygon2D" id="O75"]
+polygon = PackedVector2Array(-6, -224, 6, -224, 6, 224, -6, 224)
+
+[sub_resource type="RectangleShape2D" id="S153"]
+size = Vector2(12, 448)
+
+[sub_resource type="OccluderPolygon2D" id="O76"]
+polygon = PackedVector2Array(-6, -224, 6, -224, 6, 224, -6, 224)
+
+[sub_resource type="RectangleShape2D" id="S155"]
+size = Vector2(768, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O77"]
+polygon = PackedVector2Array(-384, -6, 384, -6, 384, 6, -384, 6)
+
+[sub_resource type="RectangleShape2D" id="S157"]
+size = Vector2(336, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O78"]
+polygon = PackedVector2Array(-168, -6, 168, -6, 168, 6, -168, 6)
+
+[sub_resource type="RectangleShape2D" id="S159"]
+size = Vector2(336, 12)
+
+[sub_resource type="OccluderPolygon2D" id="O79"]
+polygon = PackedVector2Array(-168, -6, 168, -6, 168, 6, -168, 6)
+
+[sub_resource type="RectangleShape2D" id="S487"]
+size = Vector2(96, 18)
+
+[sub_resource type="RectangleShape2D" id="S488"]
+size = Vector2(91.76, 35.52)
+
+[sub_resource type="RectangleShape2D" id="S489"]
+size = Vector2(119.88, 27.84)
+
+[sub_resource type="RectangleShape2D" id="S490"]
+size = Vector2(119.88, 27.84)
+
+[sub_resource type="RectangleShape2D" id="S491"]
+size = Vector2(119.88, 27.84)
+
+[sub_resource type="RectangleShape2D" id="S492"]
+size = Vector2(119.88, 27.84)
+
+[sub_resource type="RectangleShape2D" id="S493"]
+size = Vector2(119.88, 27.84)
+
+[sub_resource type="RectangleShape2D" id="S494"]
+size = Vector2(119.88, 27.84)
+
+[sub_resource type="RectangleShape2D" id="S495"]
+size = Vector2(119.88, 27.84)
+
+[sub_resource type="RectangleShape2D" id="S496"]
+size = Vector2(119.88, 27.84)
+
+[sub_resource type="RectangleShape2D" id="S497"]
+size = Vector2(119.88, 27.84)
+
+[sub_resource type="Gradient" id="Grad"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.7, 0.8, 1, 0.6, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="Luz"]
+gradient = SubResource("Grad")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Auditorio" type="Node2D" unique_id=1902409126]
+
+[node name="Pisos" type="Node2D" parent="." unique_id=849992534]
+
+[node name="Auditorio" type="Sprite2D" parent="Pisos" unique_id=1782220782]
+texture_repeat = 2
+texture = ExtResource("1_0vcr4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 768, 448)
+
+[node name="Paredes" type="Node2D" parent="." unique_id=1057726091]
+
+[node name="Muro75" type="StaticBody2D" parent="Paredes" unique_id=1237813764]
+position = Vector2(6, 224)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro75" unique_id=409387019]
+shape = SubResource("S151")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro75" unique_id=1480416580]
+texture_repeat = 2
+position = Vector2(-6, -224)
+texture = ExtResource("2_8nysi")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 12, 448)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro75" unique_id=1481244464]
+occluder = SubResource("O75")
+
+[node name="Muro76" type="StaticBody2D" parent="Paredes" unique_id=346393358]
+position = Vector2(762, 224)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro76" unique_id=1969066455]
+shape = SubResource("S153")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro76" unique_id=661705011]
+texture_repeat = 2
+position = Vector2(-6, -224)
+texture = ExtResource("2_8nysi")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 12, 448)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro76" unique_id=680616923]
+occluder = SubResource("O76")
+
+[node name="Muro77" type="StaticBody2D" parent="Paredes" unique_id=72464464]
+position = Vector2(384, 442)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro77" unique_id=509178645]
+shape = SubResource("S155")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro77" unique_id=1883481427]
+texture_repeat = 2
+position = Vector2(-384, -6)
+texture = ExtResource("2_8nysi")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 768, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro77" unique_id=1200668744]
+occluder = SubResource("O77")
+
+[node name="Muro78" type="StaticBody2D" parent="Paredes" unique_id=849454783]
+position = Vector2(168, 6)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro78" unique_id=101340961]
+shape = SubResource("S157")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro78" unique_id=876717883]
+texture_repeat = 2
+position = Vector2(-168, -6)
+texture = ExtResource("2_8nysi")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 336, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro78" unique_id=58921601]
+occluder = SubResource("O78")
+
+[node name="Muro79" type="StaticBody2D" parent="Paredes" unique_id=89877904]
+position = Vector2(600, 6)
+
+[node name="Colision" type="CollisionShape2D" parent="Paredes/Muro79" unique_id=1755088085]
+shape = SubResource("S159")
+
+[node name="Textura" type="Sprite2D" parent="Paredes/Muro79" unique_id=2112324098]
+texture_repeat = 2
+position = Vector2(-168, -6)
+texture = ExtResource("2_8nysi")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 336, 12)
+
+[node name="Sombra" type="LightOccluder2D" parent="Paredes/Muro79" unique_id=1189197008]
+occluder = SubResource("O79")
+
+[node name="Objetos" type="Node2D" parent="." unique_id=1876688771]
+
+[node name="puerta_cerrada_349" type="CharacterBody2D" parent="Objetos" unique_id=420329877]
+position = Vector2(384, 12)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "puerta"
+titulo = "Puerta: Auditorio"
+zona = "Auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/puerta_cerrada_349" unique_id=401240991]
+scale = Vector2(0.49746192, 0.2734375)
+texture = ExtResource("4_squej")
+metadata/zona = "Auditorio"
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/puerta_cerrada_349" unique_id=1518306004]
+shape = SubResource("S487")
+
+[node name="interruptor_350" type="CharacterBody2D" parent="Objetos" unique_id=375903819]
+position = Vector2(459, 42)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "interruptor"
+titulo = "Luz: Auditorio"
+zona = "Auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/interruptor_350" unique_id=174929337]
+scale = Vector2(0.13978495, 0.125)
+texture = ExtResource("5_rub6r")
+metadata/zona = "Auditorio"
+
+[node name="lampara_encendida_351" type="CharacterBody2D" parent="Objetos" unique_id=670390342]
+position = Vector2(384, 22)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+titulo = "Lampara encendida"
+zona = "Auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/lampara_encendida_351" unique_id=1621128628 groups=["lamparas"]]
+scale = Vector2(0.375, 0.19607843)
+texture = ExtResource("6_rik1d")
+metadata/zona = "Auditorio"
+
+[node name="escritorio_352" type="CharacterBody2D" parent="Objetos" unique_id=693683366]
+position = Vector2(98, 104)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "escondite"
+titulo = "Escritorio del auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/escritorio_352" unique_id=1305655622]
+scale = Vector2(0.484375, 0.33789954)
+texture = ExtResource("7_xgjer")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/escritorio_352" unique_id=2037869357]
+shape = SubResource("S488")
+
+[node name="pizarron_353" type="CharacterBody2D" parent="Objetos" unique_id=1176475006]
+position = Vector2(384, 63)
+collision_layer = 0
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+titulo = "Pizarron"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/pizarron_353" unique_id=625258237]
+scale = Vector2(0.9375, 0.33673468)
+texture = ExtResource("8_qnxen")
+metadata/zona = ""
+
+[node name="banco_354" type="CharacterBody2D" parent="Objetos" unique_id=2058930804]
+position = Vector2(128, 204)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "empujar"
+titulo = "Banco del auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/banco_354" unique_id=1833616100]
+scale = Vector2(0.6328125, 0.46031746)
+texture = ExtResource("9_htkng")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/banco_354" unique_id=1019296990]
+shape = SubResource("S489")
+
+[node name="banco_355" type="CharacterBody2D" parent="Objetos" unique_id=1330677250]
+position = Vector2(368, 204)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "empujar"
+titulo = "Banco del auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/banco_355" unique_id=715526549]
+scale = Vector2(0.6328125, 0.46031746)
+texture = ExtResource("9_htkng")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/banco_355" unique_id=981260554]
+shape = SubResource("S490")
+
+[node name="banco_356" type="CharacterBody2D" parent="Objetos" unique_id=1389153211]
+position = Vector2(608, 204)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "empujar"
+titulo = "Banco del auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/banco_356" unique_id=544333792]
+scale = Vector2(0.6328125, 0.46031746)
+texture = ExtResource("9_htkng")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/banco_356" unique_id=2066407980]
+shape = SubResource("S491")
+
+[node name="banco_357" type="CharacterBody2D" parent="Objetos" unique_id=1780252637]
+position = Vector2(128, 289)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "empujar"
+titulo = "Banco del auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/banco_357" unique_id=2137130493]
+scale = Vector2(0.6328125, 0.46031746)
+texture = ExtResource("9_htkng")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/banco_357" unique_id=615072155]
+shape = SubResource("S492")
+
+[node name="banco_358" type="CharacterBody2D" parent="Objetos" unique_id=1545704754]
+position = Vector2(368, 289)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "empujar"
+titulo = "Banco del auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/banco_358" unique_id=1708121070]
+scale = Vector2(0.6328125, 0.46031746)
+texture = ExtResource("9_htkng")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/banco_358" unique_id=1821005220]
+shape = SubResource("S493")
+
+[node name="banco_359" type="CharacterBody2D" parent="Objetos" unique_id=1154732691]
+position = Vector2(608, 289)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "empujar"
+titulo = "Banco del auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/banco_359" unique_id=747116555]
+scale = Vector2(0.6328125, 0.46031746)
+texture = ExtResource("9_htkng")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/banco_359" unique_id=1858379324]
+shape = SubResource("S494")
+
+[node name="banco_360" type="CharacterBody2D" parent="Objetos" unique_id=499366857]
+position = Vector2(128, 374)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "empujar"
+titulo = "Banco del auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/banco_360" unique_id=315871509]
+scale = Vector2(0.6328125, 0.46031746)
+texture = ExtResource("9_htkng")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/banco_360" unique_id=1283851696]
+shape = SubResource("S495")
+
+[node name="banco_361" type="CharacterBody2D" parent="Objetos" unique_id=1971376075]
+position = Vector2(368, 374)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "empujar"
+titulo = "Banco del auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/banco_361" unique_id=1894293900]
+scale = Vector2(0.6328125, 0.46031746)
+texture = ExtResource("9_htkng")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/banco_361" unique_id=1034152618]
+shape = SubResource("S496")
+
+[node name="banco_362" type="CharacterBody2D" parent="Objetos" unique_id=1121044992]
+position = Vector2(608, 374)
+motion_mode = 1
+script = ExtResource("3_gjpt7")
+tipo = "empujar"
+titulo = "Banco del auditorio"
+
+[node name="Sprite" type="Sprite2D" parent="Objetos/banco_362" unique_id=1270363956]
+scale = Vector2(0.6328125, 0.46031746)
+texture = ExtResource("9_htkng")
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objetos/banco_362" unique_id=1742035669]
+shape = SubResource("S497")
+
+[node name="Iluminacion" type="Node2D" parent="." unique_id=1854528107]
+
+[node name="Luz11" type="PointLight2D" parent="Iluminacion" unique_id=258893226 groups=["luces_zona"]]
+position = Vector2(384, 224)
+color = Color(0.65, 0.82, 1, 1)
+energy = 1.3
+shadow_enabled = true
+texture = SubResource("Luz")
+texture_scale = 1.6
+metadata/zona = "Auditorio"
+
+[node name="Rotulos" type="Node2D" parent="." unique_id=1108711434]

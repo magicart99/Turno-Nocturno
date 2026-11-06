@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/objeto.gd" id="R1"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/lavamanos.png" id="R2"]
+
+[sub_resource type="RectangleShape2D" id="S1"]
+size = Vector2(45.88, 23.04)
+
+[node name="Recurso" type="Node2D"]
+
+
+[node name="Objeto" type="CharacterBody2D" parent="."]
+position = Vector2(0, 0)
+script = ExtResource("R1")
+tipo = "decoracion"
+titulo = "Lavamanos"
+zona = ""
+motion_mode = 1
+collision_layer = 1
+collision_mask = 1
+
+[node name="Sprite" type="Sprite2D" parent="Objeto"]
+texture = ExtResource("R2")
+scale = Vector2(0.2421875, 0.200836820083682)
+metadata/zona = ""
+
+[node name="Colision" type="CollisionShape2D" parent="Objeto"]
+shape = SubResource("S1")

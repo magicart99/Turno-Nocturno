@@ -30,6 +30,9 @@ var jadeo: float = 0.0
 var carrera_agotada := false
 var refugio_aceptado := false
 var distancia_animada := 0.0
+var cuadro_previo := -1
+## Segunda capa del sprite: muestra el cuadro siguiente al final de cada paso (fundido entre cuadros).
+var mezcla: AnimatedSprite2D
 const CONSUMO_SIGILO := 5.0
 @onready var escuela: Node2D = get_parent()
 
@@ -37,6 +40,12 @@ func _ready() -> void:
 	$Sprite.hide()
 	sprite = Animacion.crear("lalo")
 	add_child(sprite)
+	mezcla = AnimatedSprite2D.new()
+	mezcla.sprite_frames = sprite.sprite_frames
+	mezcla.texture_filter = sprite.texture_filter
+	mezcla.modulate.a = 0.0
+	add_child(mezcla)
+	vestir(Controles.atuendo)
 	# Un solo reloj de animación, actualizado junto con la física.
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	wall_min_slide_angle = 0.0
@@ -101,7 +110,9 @@ func _physics_process(delta: float) -> void:
 	var correr := Input.is_action_pressed("correr") and not carrera_agotada and energia > 2.0 and entrada.length() > 0 and not oculto and not agachado
 	energia = clampf(energia + ((-15.0 if escuela.campana.refresco > 0 else -24.0) if correr else 11.0) * delta, 0, 100)
 	var direccion_entrada := entrada.normalized() if correr else entrada
-	velocity = direccion_entrada * (54.0 if agachado else (205.0 if correr else 112.0)) if not oculto and bloqueo_entrada <= 0 else Vector2.ZERO
+	var velocidad_objetivo := direccion_entrada * (54.0 if agachado else (205.0 if correr else 112.0)) if not oculto and bloqueo_entrada <= 0 else Vector2.ZERO
+	# Arranque y frenado breves: Lalo se siente con peso sin perder respuesta.
+	velocity = velocity.move_toward(velocidad_objetivo, (1500.0 if velocidad_objetivo.length() > velocity.length() else 2200.0) * delta)
 	move_and_slide()
 	var movimiento := get_real_velocity()
 	distancia_animada += movimiento.length() * delta
@@ -133,12 +144,17 @@ func _physics_process(delta: float) -> void:
 	$Linterna.energy = lerpf(0.76,1.12,clampf(escuela.campana.bateria/25.0,0,1))
 	if escuela.campana.bateria < 20 and sin(escuela.tiempo * 19.0) * sin(escuela.tiempo * 7.3) > 0.48:
 		$Linterna.energy *= 0.3
+	# La linterna falla cuando el Archivero está cerca.
+	if escuela.peligro > 0.3 and randf() < escuela.peligro * 0.2:
+		$Linterna.energy *= randf_range(0.2, 0.65)
 	paso -= movimiento.length() * delta
 	if movimiento.length() < 3: paso = minf(paso, 8)
 	if ruido > 0 and paso <= 0:
 		paso = 54.0 if correr else 46.0
 		escuela.sonidos.efecto(sonido_paso(), Vector2.INF, -7 if correr else -11)
 		escuela.emitir_ruido(global_position, ruido)
+		if is_instance_valid(escuela.atmosfera) and (correr or escuela.campana.lugar == "campus"):
+			escuela.atmosfera.pisada(global_position, correr)
 	if bloqueo_entrada > 0: return
 	if Input.is_action_just_pressed("linterna"):
 		linterna = not linterna and escuela.campana.bateria > 0
@@ -173,20 +189,58 @@ func animar_movimiento(movimiento: Vector2, correr: bool) -> void:
 	sprite.offset = Vector2(0, -160 if agachado or linterna else -135)
 	sprite.position = Vector2.ZERO
 	if movimiento.length() < 3 and not oculto:
-		sprite.position.y = sin(escuela.tiempo * (8.0 if jadeo > 0 else 2.5)) * (1.2 if jadeo > 0 else .45)
+		# Respiración: el pecho sube y baja (escala), más rápido si está jadeando.
+		var respiro: float = sin(escuela.tiempo * (8.0 if jadeo > 0 else 2.4)) * (0.03 if jadeo > 0 else 0.012)
+		sprite.scale.y *= 1.0 + respiro
+		sprite.position.y = minf(0.0, respiro * 20.0)
 	sprite.speed_scale = clampf(movimiento.length() / (54.0 if agachado else 112.0), 0.45, 1.65)
 	if sprite.animation != anim: sprite.animation = anim
 	sprite.pause()
+	sprite.skew = 0.0
+	var mezcla_alfa := 0.0
 	if movimiento.length() > 3 and not oculto:
-		var zancada := 44.0 if agachado else 72.0
+		var zancada := 44.0 if agachado else (86.0 if correr else 72.0)
 		var fase := fposmod(distancia_animada / zancada, 1.0)
 		var cuadros := sprite.sprite_frames.get_frame_count(anim)
-		sprite.set_frame_and_progress(mini(int(fase * cuadros), cuadros - 1), 0)
-		sprite.position.y = -absf(sin(fase * TAU)) * (1.8 if correr else 0.8)
-		sprite.rotation = sin(fase * TAU) * (0.022 if correr else 0.009)
+		var avance: float = fase * cuadros
+		var cuadro := mini(int(avance), cuadros - 1)
+		# Apoyo del pie: compresión mínima en los cuadros de contacto.
+		if cuadro != cuadro_previo and cuadro % 2 == 0:
+			sprite.scale.y *= 0.975 if not correr else 0.955
+		cuadro_previo = cuadro
+		sprite.set_frame_and_progress(cuadro, 0)
+		# Rebote de cadera y balanceo leve hacia donde avanza (rotación, sin deformar el pixel art).
+		sprite.position.y = -absf(sin(fase * TAU)) * (2.2 if correr else 0.9)
+		var inclinacion: float = clampf(movimiento.x / 205.0, -1.0, 1.0) * (0.05 if correr else 0.02)
+		sprite.rotation = lerpf(sprite.rotation, inclinacion + sin(fase * TAU) * (0.02 if correr else 0.008), 0.35)
+		# Fundido al cuadro siguiente en el último tramo de cada paso.
+		mezcla_alfa = smoothstep(0.55, 1.0, avance - cuadro) * 0.55
+		mezcla.animation = anim
+		mezcla.frame = (cuadro + 1) % cuadros
 	else:
 		sprite.frame = 0
+		cuadro_previo = -1
 		sprite.rotation = lerpf(sprite.rotation,0,0.25)
+	copiar_mezcla(mezcla_alfa)
+
+func vestir(indice: int) -> void:
+	# Atuendo cosmético: el mismo material para el sprite y su capa de fundido.
+	sprite.material = preload("res://src/player/atuendo.gd").material(indice)
+	mezcla.material = sprite.material
+
+func copiar_mezcla(alfa: float) -> void:
+	if not is_instance_valid(mezcla):
+		return
+	mezcla.visible = alfa > 0.01 and sprite.modulate.a > 0.5
+	if not mezcla.visible:
+		return
+	mezcla.pause()
+	mezcla.position = sprite.position
+	mezcla.scale = sprite.scale
+	mezcla.offset = sprite.offset
+	mezcla.rotation = sprite.rotation
+	mezcla.flip_h = sprite.flip_h
+	mezcla.modulate.a = alfa
 
 func actualizar_sigilo(delta: float) -> void:
 	jadeo=maxf(0,jadeo-delta)
@@ -234,6 +288,8 @@ func procesar_accion(delta: float) -> void:
 	velocity = Vector2.ZERO
 	ruido = 0
 	avance_accion += delta
+	sprite.skew = 0.0
+	copiar_mezcla(0.0)
 	var t: float = clampf(avance_accion / duracion_accion,0,1)
 	sprite.scale = Vector2.ONE * 0.20
 	sprite.offset = Vector2(0,-160)

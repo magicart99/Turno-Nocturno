@@ -5,6 +5,9 @@ var usando_mando: bool = false
 var vibracion: bool = true
 var volumen: float = 0.7
 var ruta_opciones: String = "res://partidas/opciones.cfg"
+## Recompensas persistentes entre partidas: atuendo elegido y atuendos desbloqueados.
+var atuendo: int = 0
+var desbloqueados: Array = [0]
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -18,6 +21,15 @@ func _ready() -> void:
 			volumen = clampf(float(sonido), 0.0, 1.0)
 		if vibrar is bool:
 			vibracion = vibrar
+		var guardados: Variant = opciones.get_value("recompensas", "desbloqueados", [0])
+		if guardados is Array:
+			desbloqueados = [0]
+			for i in guardados:
+				if (i is int or i is float) and int(i) >= 0 and int(i) < 4 and not desbloqueados.has(int(i)):
+					desbloqueados.append(int(i))
+		var elegido: Variant = opciones.get_value("recompensas", "atuendo", 0)
+		if (elegido is int or elegido is float) and desbloqueados.has(int(elegido)):
+			atuendo = int(elegido)
 	var teclas := {"izquierda": [KEY_A, KEY_LEFT], "derecha": [KEY_D, KEY_RIGHT], "arriba": [KEY_W, KEY_UP], "abajo": [KEY_S, KEY_DOWN], "interactuar": [KEY_E], "linterna": [KEY_F], "correr": [KEY_SHIFT], "pausa": [KEY_ESCAPE], "guardar": [KEY_F5], "distraer": [KEY_Q], "mapa": [KEY_TAB, KEY_M], "agacharse": [KEY_C, KEY_CTRL], "minimapa": [KEY_V], "inventario": [KEY_I]}
 	for accion in teclas:
 		if not InputMap.has_action(accion):
@@ -104,7 +116,17 @@ func guardar_opciones() -> bool:
 	var opciones := ConfigFile.new()
 	opciones.set_value("audio", "volumen", volumen)
 	opciones.set_value("mando", "vibracion", vibracion)
+	opciones.set_value("recompensas", "desbloqueados", desbloqueados)
+	opciones.set_value("recompensas", "atuendo", atuendo)
 	return opciones.save(ruta_opciones) == OK
+
+func desbloquear(indice: int) -> bool:
+	# Devuelve true solo la primera vez, para anunciar la recompensa.
+	if desbloqueados.has(indice):
+		return false
+	desbloqueados.append(indice)
+	guardar_opciones()
+	return true
 
 func boton_interaccion() -> String:
 	if not usando_mando:

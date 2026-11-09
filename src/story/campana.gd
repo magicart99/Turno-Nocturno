@@ -133,6 +133,46 @@ func objetivo() -> String:
 			return "N4 · Cruza la pluma hacia el amanecer" if hechos.get("reporte_entregado", false) else "N4 · Lleva el reporte a Don Chuy en la caseta"
 	return "Cierra tu turno"
 
+func lista_misiones() -> Array:
+	# [titulo_nivel, [[tarea, hecha], ...]]. Lo consulta la página de Misiones de la mochila.
+	var inv: Array = escuela.jugador.inventario
+	var expediente: bool = inv.has("Expediente de Lalo") or etapa > 1
+	var recuerdos := 0
+	for i in range(4):
+		if hechos.get("testimonio_%d" % (i + 1), false): recuerdos += 1
+	var documentos := 0
+	for i in range(10):
+		if hechos.get("documento_%d" % (i + 1), false): documentos += 1
+	return [
+		["NIVEL 1 · EDIFICIO PRINCIPAL", [
+			["Encontrar la llave maestra en Dirección", inv.has("Llave maestra") or expediente],
+			["Encender Rectoría y recuperar tu expediente", expediente],
+			["Ayudar a la de Cómputo", hechos.get("computo", false)],
+			["Recoger el radio y la pala", hechos.get("radio", false) and hechos.get("pala", false)],
+			["Registrar tu salida en la bitácora", etapa > 1]]],
+		["NIVEL 2 · PATIO", [
+			["Reparar la luz del andador", hechos.get("revision_luz", false)],
+			["Revisar la toma de agua", hechos.get("revision_agua", false)],
+			["Recoger la nota de la banca", hechos.get("memoria_banca", false)],
+			["Desenterrar la memoria USB", hechos.get("archivo_enterrado", false)],
+			["Entregar las pruebas a la Prefecta", hechos.get("autorizacion", false)]]],
+		["NIVEL 3 · CAFETERÍA Y SERVICIOS", [
+			["Llevar la USB al de Talleres", hechos.get("talleres", false)],
+			["Recoger la llave de servicio", hechos.get("llave_servicio", false)],
+			["Revisar la cafetería", hechos.get("revision_cafe", false)],
+			["Revisar los baños", hechos.get("revision_banos", false)],
+			["Recoger el reporte del mostrador", hechos.get("reporte", false)]]],
+		["NIVEL 4 · ESTACIONAMIENTO", [
+			["Entregar el reporte a Don Chuy", hechos.get("reporte_entregado", false)],
+			["Cruzar la pluma hacia el amanecer", false]]],
+		["OPCIONAL · FINAL ALTERNATIVO", [
+			["Encontrar el Sello Roto en Rectoría", inv.has("Sello roto")],
+			["Leer el Archivo 001 del patio", inv.has("Archivo 001") or hechos.get("archivo_enterrado", false)],
+			["Escuchar los recuerdos de los Ecos (%d / 4)" % recuerdos, recuerdos >= 4],
+			["Llegar a la caseta con 50 de cordura o más", escuela.jugador.cordura >= 50.0],
+			["Leer los documentos del campus (%d / 10)" % documentos, documentos >= 10]]],
+	]
+
 func completar(clave: String, mensaje: String) -> String:
 	if not hechos.get(clave, false):
 		hechos[clave] = true
@@ -195,6 +235,8 @@ func interactuar(clave: String, _punto: Node2D = null) -> String:
 			if hechos.get(clave, false): return "Ya recogiste la memoria USB. Llévala a la Prefecta."
 			if hechos.get("memoria_desenterrada", false):
 				escuela.jugador.inventario.append("Memoria USB del patio")
+				# GDD: el Archivo Enterrado revela el origen del Archivero y la pista del Sello Roto.
+				if not escuela.jugador.inventario.has("Archivo 001"): escuela.jugador.inventario.append("Archivo 001")
 				return completar(clave, "Memoria USB recogida. Entrégala a la Prefecta junto con la nota de la banca.")
 			escuela.jugador.excavar(_punto)
 			return "Excavando… los golpes de la pala pueden delatarte."
@@ -255,11 +297,23 @@ func interactuar(clave: String, _punto: Node2D = null) -> String:
 	return ""
 
 func mostrar_puzzle() -> void:
-	escuela.interfaz.elegir("LA DE CÓMPUTO / NO ME DEJES AQUÍ", "Cuando cerraron la escuela, yo seguía en esta sala.\nCada noche el monitor vuelve a mostrar el momento en que desaparecí. Apágalo, por favor.\nEscondimos una memoria USB bajo la tierra removida del patio. Entrégasela a la Prefecta: contiene la prueba de que no salimos.", ["Apagar el monitor y ayudarla"], func(i: int):
-		if i != 0 or hechos.get("computo", false): return
-		completar("computo", "Monitor apagado. Recoge la radio y la pala; sal al patio por la bitácora.")
-		escuela.sonidos.efecto("rele", Vector2.INF, -10)
-		escuela.anunciar("EL MONITOR SE APAGA", "En el cristal queda una huella… por dentro. Busca la USB en el patio.")
+	# GDD: corregir su bucle la libera; asustarla la hace gritar y delata a Lalo.
+	escuela.interfaz.elegir("LA DE CÓMPUTO / NO ME DEJES AQUÍ", "Cuando cerraron la escuela, yo seguía en esta sala.\nEn el monitor parpadea lo mismo cada noche: ENTER · ERROR · ENTER · ERROR. Mi examen nunca se envió.\nSi lo envías por mí, el bucle termina. Escondimos una memoria USB bajo la tierra del patio: llévasela a la Prefecta.", ["Pulsar ENTER por ella: enviar su examen", "Pulsar ESC: cancelar el envío", "Desconectar el monitor de golpe"], func(i: int):
+		if hechos.get("computo", false): return
+		if i == 0:
+			completar("computo", "Examen enviado. El bucle se rompió. Recoge la radio y la pala; sal al patio por la bitácora.")
+			escuela.sonidos.efecto("rele", Vector2.INF, -10)
+			escuela.anunciar("EXAMEN ENVIADO", "El monitor se apaga. En el cristal queda una huella… por dentro. Busca la USB en el patio.")
+		elif i == 1:
+			escuela.relato.decir("LA DE CÓMPUTO · No… otra vez desde el principio. ENTER · ERROR · ENTER…")
+		else:
+			# Se asusta y grita: el Archivero escucha dónde está Lalo.
+			escuela.sonidos.efecto("grito", escuela.jugador.position, -6)
+			escuela.emitir_ruido(escuela.jugador.position, 1.6)
+			escuela.jugador.cordura = maxf(0.0, escuela.jugador.cordura - 8.0)
+			escuela.mente.presenciar(10.0)
+			escuela.sacudir_camara(0.15)
+			escuela.jugador.mensaje = "¡Gritó! El Archivero sabe dónde estás. Escóndete y vuelve a intentarlo."
 	)
 
 func comprar(i: int) -> void:
@@ -287,7 +341,6 @@ func actualizar_accesos() -> void:
 		if puerta:
 			puerta.visible = not par[1]
 			puerta.get_node("Colision").set_deferred("disabled", par[1])
-	escuela.archivero.velocidad_busqueda = 116 if etapa == 4 else 98
 	if final_liberado and not exterior.has_node("EcosLiberados"):
 		var ecos := Node2D.new()
 		ecos.name = "EcosLiberados"
@@ -307,6 +360,8 @@ func actualizar_accesos() -> void:
 
 func cambiar_lugar(destino: String, posicion: Vector2, anuncio: bool = true) -> void:
 	cambiando = true
+	if anuncio:
+		escuela.interfaz.fundido_entrada(0.9)
 	var seguir: bool = escuela.jugando
 	escuela.jugando = false
 	escuela.jugador.cancelar_accion()
@@ -328,6 +383,7 @@ func cambiar_lugar(destino: String, posicion: Vector2, anuncio: bool = true) -> 
 		exterior.add_child(preload("res://src/world/decoracion_v11.gd").new())
 		escuela.add_child(exterior)
 		preload("res://src/world/pared_v12.gd").renovar(exterior)
+		preload("res://src/world/acabados.gd").desgastar_suelos(exterior)
 	if is_instance_valid(exterior):
 		activar_colisiones(exterior, destino == "campus")
 		exterior.visible = destino == "campus"

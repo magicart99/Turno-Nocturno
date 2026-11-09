@@ -5,6 +5,8 @@ extends StaticBody2D
 @export var tipo: String = "campana"
 @export var consumible: bool = false
 var abierto: bool = false
+var retrato: Sprite2D
+var base_retrato := Vector2.ZERO
 
 func _ready() -> void:
 	# Cada Eco conserva su arte propio, incluso si se regenera el campus.
@@ -18,6 +20,9 @@ func _ready() -> void:
 				var material_eco := CanvasItemMaterial.new()
 				material_eco.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
 				hijo.material = material_eco
+				hijo.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+				retrato = hijo
+				base_retrato = hijo.position
 		if has_node("Indicador"): get_node("Indicador").position.y = -105
 	if clave == "computo" and has_node("Sprite3"):
 		add_child(preload("res://src/story/la_de_computo.gd").new())
@@ -52,3 +57,8 @@ func _process(_delta: float) -> void:
 	var brillo := get_node_or_null("Indicador") as CanvasItem
 	if brillo:
 		brillo.modulate.a = 0.65 + 0.3 * sin(escuela.tiempo * 2.5)
+	# Los Ecos flotan y, de vez en cuando, su imagen se corta como una señal débil.
+	if is_instance_valid(retrato):
+		var t: float = escuela.tiempo + position.x * 0.01
+		retrato.position = base_retrato + Vector2(sin(t * 0.7) * 1.5, sin(t * 1.4) * 4.0)
+		retrato.modulate.a = 0.84 + 0.1 * sin(t * 3.1) - (0.45 if sin(t * 13.0) * sin(t * 2.3) > 0.9 else 0.0)

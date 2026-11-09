@@ -7,6 +7,9 @@ var recursos: Dictionary = {}
 var tension: AudioStreamPlayer
 var pasos_indice := 0
 var variantes_pasos: Dictionary = {}
+## Segundos de silencio pedidos por el director antes de un evento.
+var silencio: float = 0.0
+var presencia: AudioStreamPlayer2D
 
 func _ready() -> void:
 	volumen = Controles.volumen
@@ -31,7 +34,7 @@ func _ready() -> void:
 		capa.bus = "Ambiente"
 		var audio: AudioStreamWAV = load("res://assets/audio/v11/" + zona + ".wav")
 		audio.loop_mode = AudioStreamWAV.LOOP_FORWARD
-		audio.loop_end = audio.data.size() / 2
+		audio.loop_end = int(audio.data.size() / 2.0)
 		capa.stream = audio
 		capa.volume_db = -60
 		add_child(capa)
@@ -57,18 +60,59 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var escuela := get_parent()
 	var peligro: float = escuela.peligro if escuela.jugando else 0.0
+	silencio = maxf(0.0, silencio - delta)
+	actualizar_presencia(escuela, delta)
 	var zona_actual: String = AudioManager.zona(escuela)
 	AudioManager.ajustar_reverb(zona_actual, delta)
 	for zona in capas:
-		var objetivo: float = -22.0 - peligro * 12.0 if zona == zona_actual else -60.0
+		var objetivo: float = -22.0 - peligro * 12.0 if zona == zona_actual and silencio <= 0.0 else -60.0
 		capas[zona].volume_db = move_toward(capas[zona].volume_db, objetivo, delta * 12.0)
 		capas[zona].stream_paused = not escuela.jugando
 	espera_goteo -= delta if escuela.jugando else 0.0
 	if espera_goteo <= 0:
 		espera_goteo = randf_range(3.5, 7.0)
 		if zona_actual == "banos": efecto("goteo", Vector2(900, 950) if escuela.campana.lugar == "campus" else Vector2(2980, 180), -13)
-	ambiente.volume_db = -36.0 - peligro * 8.0
-	tension.volume_db = move_toward(tension.volume_db, lerpf(-60,-31,peligro),delta*14)
+	ambiente.volume_db = move_toward(ambiente.volume_db, -60.0 if silencio > 0.0 else -36.0 - peligro * 8.0, delta * 30.0)
+	# Música por nivel: el mismo ambiente se vuelve más grave en cada nivel del campus.
+	var etapa: int = clampi(int(escuela.campana.etapa), 1, 4)
+	var tono_nivel: float = 1.0 if escuela.campana.lugar == "principal" else [1.0, 0.95, 0.9, 0.85][etapa - 1]
+	ambiente.pitch_scale = move_toward(ambiente.pitch_scale, tono_nivel, delta * 0.05)
+	tension.pitch_scale = move_toward(tension.pitch_scale, tono_nivel, delta * 0.05)
+	# En el nivel 4 la capa de tensión nunca desaparece del todo: la persecución es constante.
+	var minimo_tension: float = -44.0 if escuela.campana.etapa >= 4 and escuela.campana.lugar == "campus" else -60.0
+	tension.volume_db = move_toward(tension.volume_db, lerpf(minimo_tension,-31,peligro),delta*14)
+
+func actualizar_presencia(escuela: Node, delta: float) -> void:
+	# Murmullo continuo pegado al Archivero: se le sigue por el oído, como él te sigue a ti.
+	if DisplayServer.get_name() == "headless" or not is_instance_valid(escuela.archivero):
+		return
+	if presencia == null:
+		var original: AudioStreamWAV = recursos.get("murmullo")
+		if original == null:
+			return
+		var bucle := original.duplicate() as AudioStreamWAV
+		bucle.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		bucle.loop_begin = 0
+		bucle.loop_end = int(bucle.get_length() * bucle.mix_rate)
+		presencia = AudioStreamPlayer2D.new()
+		presencia.stream = bucle
+		presencia.bus = "Voces"
+		presencia.max_distance = 760.0
+		presencia.attenuation = 1.6
+		presencia.volume_db = -60.0
+		escuela.archivero.add_child(presencia)
+	var archivero: CharacterBody2D = escuela.archivero
+	var activo: bool = escuela.jugando and archivero.activo and archivero.visible
+	if activo and not presencia.playing:
+		presencia.play()
+	presencia.stream_paused = not activo
+	# A través de las paredes se oye más apagado.
+	var objetivo: float = -60.0
+	if activo:
+		var rayo := PhysicsRayQueryParameters2D.create(archivero.global_position, escuela.jugador.global_position, 1, [archivero.get_rid(), escuela.jugador.get_rid()])
+		var directo: bool = archivero.get_world_2d().direct_space_state.intersect_ray(rayo).is_empty()
+		objetivo = (-13.0 if directo else -21.0) + (3.0 if archivero.estado == "INVESTIGANDO" else 0.0)
+	presencia.volume_db = move_toward(presencia.volume_db, objetivo, delta * 20.0)
 
 func efecto(nombre: String, posicion: Vector2 = Vector2.INF, db: float = -8.0) -> void:
 	if DisplayServer.get_name() == "headless" or not recursos.has(nombre):
@@ -108,6 +152,9 @@ func ajustar(valor: float) -> void:
 	AudioServer.set_bus_volume_db(0, linear_to_db(maxf(valor, 0.001)))
 
 func _exit_tree() -> void:
+	if is_instance_valid(presencia):
+		presencia.stop()
+		presencia.stream = null
 	for reproductor in get_children():
 		if reproductor is AudioStreamPlayer or reproductor is AudioStreamPlayer2D:
 			reproductor.stop()

@@ -7,6 +7,28 @@ var restante := 0.0
 var espera := 6.0
 var cola: Array[String] = []
 var ultima_etapa := 0
+const LINEAS_ETAPA := {
+	2: ["DON CHUY, POR RADIO · Ya estás afuera. Mira el cielo: rojo, como si no quisiera amanecer. Ni un grillo… aquí el ruido viaja lejos.",
+		"DON CHUY · Revisa la luz del andador y la toma de agua. La Prefecta cuida el segundo edificio; ella recuerda más que yo."],
+	3: ["DON CHUY · La Prefecta te dejó pasar. A nadie lo deja pasar.",
+		"DON CHUY · El de Talleres sigue con su maqueta a medio terminar. No agarres lo que no es tuyo: se enoja."],
+	4: ["DON CHUY · Ya tienes el reporte. Él también lo sabe: ahora viene más rápido.",
+		"DON CHUY · Pasa entre los autos sin rozarlos. Si suena una alarma, no te detengas hasta la caseta."],
+}
+const VOCES_ARCHIVERO := [
+	"EL ARCHIVERO · …matrícula sin firma… baja por abandono…",
+	"EL ARCHIVERO · Lista de asistencia. Falta uno. Siempre falta uno.",
+	"EL ARCHIVERO · Nadie sale con pendientes.",
+	"EL ARCHIVERO · Te escuché. Tu expediente hace el mismo ruido.",
+	"EL ARCHIVERO · Sello. Fecha. Archivo. Silencio.",
+]
+const LINEAS_OBJETOS := {
+	"Expediente de Lalo": "LALO · Mi foto, mi matrícula… y una firma de baja que nunca hice. La fecha es de hace seis años.",
+	"Sello roto": "LALO · Un sello de Rectoría partido a la mitad. Dice «REVOCADO». Tal vez sirva para devolver lo que el Archivero se llevó.",
+	"Termo de cafe": "LALO · Café frío. Me va a mantener despierto un rato más. Lo guardo para cuando lo necesite.",
+	"Grapadora": "LALO · Si la lanzo lejos (Q / RB), el ruido lo llevará hacia otro lado.",
+	"Extintor": "LALO · No lo va a lastimar… pero puede darme unos segundos.",
+}
 
 func _ready() -> void:
 	escuela = get_parent()
@@ -48,6 +70,15 @@ func _process(delta: float) -> void:
 		escuela.campana.hechos["relato_despertar"] = true
 		decir("LALO · Me quedé dormido en la escuela. Las puertas están cerradas y mi expediente dice que desaparecí hace años.")
 		decir("Una voz bajo la puerta · Busca tu expediente en Rectoría. Si el Archivero lo sella, tampoco recordarás cómo salir.")
+	# La radio de Don Chuy acompaña cada cambio de nivel. La marca en hechos evita repetirla al cargar.
+	var etapa: int = escuela.campana.etapa
+	if etapa != ultima_etapa:
+		ultima_etapa = etapa
+		var marca := "relato_etapa_%d" % etapa
+		if LINEAS_ETAPA.has(etapa) and not escuela.campana.hechos.get(marca, false):
+			escuela.campana.hechos[marca] = true
+			escuela.sonidos.efecto("radio_estatica", Vector2.INF, -16)
+			for linea in LINEAS_ETAPA[etapa]: decir(linea)
 	if restante <= 0 and not cola.is_empty():
 		texto.text = cola.pop_front()
 		restante = 7.0
@@ -109,3 +140,15 @@ func recuerdo(clave: String) -> void:
 	if lineas.has(clave):
 		escuela.sonidos.efecto("radio_estatica" if clave == "radio" else "papeles",Vector2.INF,-15)
 		decir(lineas[clave])
+	if clave == "archivo_enterrado":
+		decir("ARCHIVO 001, ENVUELTO CON LA USB · «Primera baja sin firma. El archivo aprendió a archivar solo.» Al reverso, a lápiz: «El sello que lo rompe sigue en Rectoría».")
+
+func voz_archivero() -> void:
+	if cola.size() < 2:
+		decir(VOCES_ARCHIVERO[randi() % VOCES_ARCHIVERO.size()])
+
+func objeto_recogido(titulo: String) -> void:
+	var marca := "relato_objeto_" + titulo
+	if not LINEAS_OBJETOS.has(titulo) or escuela.campana.hechos.get(marca, false): return
+	escuela.campana.hechos[marca] = true
+	decir(LINEAS_OBJETOS[titulo])

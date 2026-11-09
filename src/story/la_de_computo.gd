@@ -6,6 +6,7 @@ func _ready() -> void:
 	escuela = get_tree().get_first_node_in_group("control")
 	silueta = get_parent().get_node("Sprite3")
 	silueta.modulate = Color(.67,.9,1,.8)
+	silueta.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	var nombre := Label.new()
 	nombre.text = "LA DE CÓMPUTO"
 	var tinta := CanvasItemMaterial.new()

@@ -2,6 +2,8 @@ extends RefCounted
 ## Usa los PNG originales; cada dirección tiene sus propios cuatro cuadros.
 static func crear(personaje: String) -> AnimatedSprite2D:
 	var sprite := AnimatedSprite2D.new()
+	# El arte se dibuja reducido (≈26 %): con mipmaps el contorno no se rompe ni parpadea al moverse.
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	sprite.set_meta("personaje", personaje)
 	# Ventanas del atlas: quitan restos de cuadros vecinos sin alterar los PNG UT.
 	var regiones := {

@@ -9,6 +9,8 @@ var lugar := ""
 var reloj := 0.0
 var escala := 1.0
 var origen := Vector2.ZERO
+var tiempo := 0.0
+var fuente: Font = preload("res://assets/fuentes/Rajdhani-SemiBold.ttf")
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -41,6 +43,7 @@ func actualizar() -> void:
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(escuela): return
+	tiempo += delta
 	reloj -= delta
 	if lugar != escuela.campana.lugar or reloj <= 0:
 		reloj = 0.7
@@ -66,6 +69,13 @@ func _draw() -> void:
 		escala = minf((size.x - 36) / limites.x, (size.y - 50) / limites.y)
 		origen = (size - limites * escala) * 0.5
 	draw_rect(Rect2(Vector2.ZERO, size), Color("0e1c27"))
+	if not radar:
+		# Cuadrícula de plano técnico.
+		var paso := 40.0
+		for x in range(0, int(size.x / paso) + 1):
+			draw_line(Vector2(x * paso, 0), Vector2(x * paso, size.y), Color(0.3, 0.45, 0.55, 0.08), 1.0)
+		for y in range(0, int(size.y / paso) + 1):
+			draw_line(Vector2(0, y * paso), Vector2(size.x, y * paso), Color(0.3, 0.45, 0.55, 0.08), 1.0)
 	for suelo in suelos: caja(suelo.rect, suelo.color, not str(suelo.nombre).begins_with("Pasillo") and interior)
 	if not interior:
 		caja(Geo.PRINCIPAL, Color("384b66"), true)
@@ -78,9 +88,17 @@ func _draw() -> void:
 	if is_instance_valid(guia) and not radar:
 		for i in range(1, guia.ruta.size()):
 			if not conocido(guia.ruta[i]) or not conocido(guia.ruta[i-1]): continue
-			draw_line(punto(guia.ruta[i-1]), punto(guia.ruta[i]), Color("f4cb72"), 3 if radar else 2, true)
+			# Ruta con guiones que avanzan hacia el destino.
+			var a := punto(guia.ruta[i-1])
+			var b := punto(guia.ruta[i])
+			draw_line(a, b, Color(0.96, 0.8, 0.45, 0.25), 4, true)
+			var largo := a.distance_to(b)
+			var d := fposmod(tiempo * 30.0, 12.0)
+			while d < largo:
+				draw_line(a.lerp(b, d / largo), a.lerp(b, minf(d + 6.0, largo) / largo), Color("f4cb72"), 2.5, true)
+				d += 12.0
 	if not radar:
-		draw_string(ThemeDB.fallback_font,Vector2(16,22),"PLANO COMPLETO · sigue la ruta dorada",HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("b3c4be"))
+		draw_string(fuente,Vector2(16,22),"PLANO COMPLETO · sigue la ruta dorada",HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color("b3c4be"))
 		if interior:
 			for suelo in suelos:
 				if not str(suelo.nombre).begins_with("Pasillo") and conocido(suelo.rect.get_center()):
@@ -97,6 +115,8 @@ func _draw() -> void:
 	if is_instance_valid(guia) and is_instance_valid(guia.destino) and conocido(guia.posicion_objetivo):
 		var objetivo: Vector2 = punto(guia.posicion_objetivo)
 		if radar: objetivo = size*0.5 + (objetivo-size*0.5).limit_length(size.x*0.42)
+		var onda := fposmod(tiempo, 1.4) / 1.4
+		draw_arc(objetivo, 8.0 + onda * 16.0, 0, TAU, 32, Color(0.96, 0.8, 0.45, (1.0 - onda) * 0.8), 2.0, true)
 		draw_circle(objetivo, 8, Color("14222c"))
 		draw_arc(objetivo, 8, 0, TAU, 24, Color("f4cb72"),2,true)
 		draw_string(ThemeDB.fallback_font,objetivo+Vector2(-3,5),"!",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("ffe5a1"))
@@ -114,15 +134,21 @@ func _draw() -> void:
 		draw_arc(sitio,5,0,TAU,16,color,1.5,true)
 		draw_circle(sitio,1.5,color)
 	var jugador := punto(escuela.jugador.global_position)
+	# Cono de la linterna y pulso de posición.
+	if escuela.jugador.linterna:
+		var ang: float = escuela.jugador.apuntado.angle()
+		var cono := PackedVector2Array([jugador, jugador + Vector2.from_angle(ang - 0.4) * 34.0, jugador + Vector2.from_angle(ang + 0.4) * 34.0])
+		draw_colored_polygon(cono, Color(1.0, 0.95, 0.7, 0.16))
+	draw_arc(jugador, 11.0 + sin(tiempo * 4.0) * 2.0, 0, TAU, 24, Color(0.63, 1.0, 0.88, 0.45), 1.5, true)
 	draw_circle(jugador,9,Color("112b35"))
 	var triangulo := PackedVector2Array()
 	for v in [Vector2(10,0),Vector2(-6,-6),Vector2(-3,0),Vector2(-6,6)]: triangulo.append(jugador+v.rotated(escuela.jugador.apuntado.angle()))
 	draw_colored_polygon(triangulo, Color("a2ffe1"))
 
 func rotulo(p: Vector2, texto: String, tam: int) -> void:
-	var ancho := ThemeDB.fallback_font.get_string_size(texto,HORIZONTAL_ALIGNMENT_LEFT,-1,tam).x
-	draw_string_outline(ThemeDB.fallback_font,p-Vector2(ancho/2,0),texto,HORIZONTAL_ALIGNMENT_LEFT,-1,tam,4,Color("14202b"))
-	draw_string(ThemeDB.fallback_font,p-Vector2(ancho/2,0),texto,HORIZONTAL_ALIGNMENT_LEFT,-1,tam,Color("e5eff1"))
+	var ancho := fuente.get_string_size(texto,HORIZONTAL_ALIGNMENT_LEFT,-1,tam+1).x
+	draw_string_outline(fuente,p-Vector2(ancho/2,0),texto,HORIZONTAL_ALIGNMENT_LEFT,-1,tam+1,4,Color("14202b"))
+	draw_string(fuente,p-Vector2(ancho/2,0),texto,HORIZONTAL_ALIGNMENT_LEFT,-1,tam+1,Color("e5eff1"))
 
 
 func conocido(_p: Vector2) -> bool:

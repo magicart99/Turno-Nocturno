@@ -18,15 +18,22 @@ func _ready() -> void:
 uniform sampler2D pantalla : hint_screen_texture, repeat_disable, filter_linear;
 uniform float intensidad = 0.0;
 uniform float reloj = 0.0;
+uniform float peligro = 0.0;
 void fragment(){
  vec2 uv=SCREEN_UV;
  float borde=smoothstep(0.15,0.7,length(uv-vec2(0.5)));
  uv.x+=sin(uv.y*43.0+reloj*1.7)*intensidad*intensidad*0.012*borde;
  vec3 c=texture(pantalla,clamp(uv,vec2(0.001),vec2(0.999))).rgb;
- float desplazamiento=intensidad*intensidad*0.004;
+ // Aberración cromática: crece con la locura y con el Archivero cerca.
+ float desplazamiento=intensidad*intensidad*0.004+peligro*0.0035*borde;
  c.r=texture(pantalla,clamp(uv+vec2(desplazamiento,0),vec2(0.001),vec2(0.999))).r;
- float gris=dot(c,vec3(0.299,0.587,0.114));
- c=mix(c,vec3(gris)*vec3(0.77,0.91,0.94),intensidad*0.55);
+ c.b=texture(pantalla,clamp(uv-vec2(desplazamiento,0),vec2(0.001),vec2(0.999))).b;
+ // Gradación: sombras frías, negros profundos y contraste suave.
+ float luma=dot(c,vec3(0.299,0.587,0.114));
+ c=mix(c*vec3(0.82,0.94,1.08),c,smoothstep(0.05,0.45,luma));
+ c=pow(max(c,vec3(0.0)),vec3(1.08));
+ c=mix(c,vec3(luma),0.12+intensidad*0.45);
+ c=mix(c,c*vec3(1.12,0.86,0.84),peligro*0.35);
  c*=1.0-intensidad*0.025*(0.5+0.5*sin(uv.y*600.0));
  COLOR=vec4(c,1.0);
 }'''
@@ -57,12 +64,16 @@ func avanzar(delta: float, _oscuridad: bool) -> void:
 			inversion=0.0
 			escuela.jugador.mensaje="Las paredes respiran. Tus pasos no suenan solos."
 func _process(delta: float) -> void:
-	pantalla.visible=escuela.jugando and escuela.jugador.cordura<99.9
+	# Siempre activa durante el juego: también aplica la gradación de color.
+	pantalla.visible=escuela.jugando
 	if not escuela.jugando:return
 	reloj_luz-=delta
 	if reloj_luz<=0:
 		reloj_luz=.25;a_oscuras=not luz_segura()
 	avanzar(delta,a_oscuras)
+	if escuela.jugando and escuela.jugador.cordura <= 0.0:
+		escuela.convertir_en_eco()
 	tiempo_visual+=delta
 	pantalla.material.set_shader_parameter("intensidad",clampf((100-escuela.jugador.cordura)/100,0,1))
 	pantalla.material.set_shader_parameter("reloj",tiempo_visual)
+	pantalla.material.set_shader_parameter("peligro",escuela.peligro)

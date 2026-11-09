@@ -8,6 +8,9 @@ signal recogido(id: String)
 var abierto: bool = false
 var ocupado: bool = false
 var textura_cerrada: Texture2D
+var textura_abierta: Texture2D = preload("res://assets/sprites/puerta_abierta.png")
+## Las puertas de vidrio dejan pasar la luz: su oclusor permanece apagado.
+var vidrio: bool = false
 var sombra: LightOccluder2D
 var escala_puerta: Vector2 = Vector2.ONE
 var giro_puerta: Tween
@@ -113,13 +116,13 @@ func interactuar(jugador: CharacterBody2D) -> String:
 func establecer_puerta(valor: bool) -> void:
 	abierto = valor
 	$Colision.set_deferred("disabled", abierto)
-	$Sprite.texture = load("res://assets/sprites/puerta_abierta.png") if abierto else textura_cerrada
+	$Sprite.texture = textura_abierta if abierto else textura_cerrada
 	if giro_puerta: giro_puerta.kill()
 	giro_puerta = create_tween()
 	giro_puerta.tween_property($Sprite, "scale:x", escala_puerta.x * 0.84, 0.10)
 	giro_puerta.tween_property($Sprite, "scale:x", escala_puerta.x, 0.14)
 	if is_instance_valid(sombra):
-		sombra.visible = not abierto
+		sombra.visible = not abierto and not vidrio
 
 func abrir_archivero() -> void:
 	establecer_puerta(true)

@@ -19,6 +19,7 @@ var pagina := 0
 var seleccion := ""
 var objetos: Array[String]=[]
 var cantidades: Dictionary={}
+var panel_misiones: PanelContainer
 const CATALOGO = {
  "Memoria USB del patio":["usb.png","EVIDENCIA","Desenterrada en el patio. Muéstrala a la Prefecta y después entrégala al de Talleres, en oficinas."],
  "Nota de la banca":["papeles.png","EVIDENCIA","Prueba que había alumnos dentro cuando cerraron. Entrégala a la Prefecta."],
@@ -31,12 +32,12 @@ const CATALOGO = {
  "Termo de cafe":["termo.png","RECUPERACIÓN","Bebe para recuperar 15 puntos de cordura. Se consume; no hace falta usarlo inmediatamente."],
  "Expediente de Lalo":["expediente.png","EVIDENCIA","Tu firma aparece en una baja que no solicitaste. Recuperar tu nombre es el comienzo, no el final."],
  "Sello roto":["sello_roto.png","EVIDENCIA","Puede revertir las bajas. Conserva el archivo enterrado y al menos 50 de cordura para ofrecer otra salida a los Ecos."],
- "Gafete de prefectura":["gafete.png","EVIDENCIA","Un cargo sigue impreso aunque su dueña ya no recuerde su nombre."],
+ "Gafete de prefectura":["gafete.png","UN SOLO USO","Un cargo sigue impreso aunque su dueña ya no recuerde su nombre. Muéstralo y el Archivero te tratará como personal durante 12 segundos: no te escuchará ni te archivará."],
  "Memoria USB":["usb.png","EVIDENCIA","Registros rescatados de las computadoras. Una copia es más difícil de borrar que una persona."],
  "Acta sellada":["expediente.png","EVIDENCIA","Nadie dejó una hora de salida. Guarda este documento."],
  "Radio":["campus/radio.svg","EQUIPO","La voz de Don Chuy es tu vínculo con la caseta. Los mensajes importantes aparecen como testimonios."],
  "Pala":["campus/pala_usuario.png","HERRAMIENTA","Úsala en la tierra removida del patio. Excavar tarda tres segundos y hace ruido."],
- "Archivo 001":["expediente.png","EVIDENCIA","La primera baja no tiene firma. El sistema empezó a archivar sin autorización."],
+ "Archivo 001":["expediente.png","EVIDENCIA","Desenterrado junto a la USB. La primera baja no tiene firma: el archivo aprendió a archivar solo y se volvió el Archivero. Al reverso, a lápiz: «El sello que lo rompe sigue en Rectoría, junto a tu expediente»."],
  "Reporte de cierre":["expediente.png","MISIÓN","Llévalo a Don Chuy en vigilancia. Todavía puedes decidir qué ocurrirá con los demás."],
  "Memoria de la banca":["papeles.png","EVIDENCIA","La Prefecta firmaba las bajas. Este fragmento le permite recordar a quiénes pertenecían."],
  "Memoria: maqueta":["maqueta.png","EVIDENCIA","Un campus vacío en miniatura. Las aulas siguen ahí; faltan sus nombres."]
@@ -85,12 +86,18 @@ func _ready() -> void:
 	pagina_texto=label("",Vector2(235,644),18)
 	boton("Siguiente ›",Vector2(385,635),Vector2(145,42),func(): cambiar(1))
 	if not tienda:
-		boton("Testimonios",Vector2(600,635),Vector2(180,42),diario)
+		boton("Testimonios",Vector2(548,635),Vector2(148,42),diario)
+		boton("Misiones",Vector2(704,635),Vector2(140,42),misiones)
 		descartar = boton("Descartar unidad",Vector2(875,602),Vector2(320,30),descartar_unidad)
 	boton("Cerrar · Y / I / B",Vector2(875,635),Vector2(320,42),escuela.continuar)
 	label("Cruceta / stick: elegir · A / Enter: seleccionar · Confirma con el botón de compra" if tienda else "Cruceta / stick: elegir · A / Enter: examinar · Los objetos de misión se conservan",Vector2(60,690),15).modulate=Color("9bb2b5")
 	actualizar()
 	raiz.modulate.a=0;create_tween().tween_property(raiz,"modulate:a",1,.18)
+	# Entrada: la rejilla se desliza y la imagen del objeto flota suavemente.
+	rejilla.position.x=30;create_tween().tween_property(rejilla,"position:x",60.0,.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	var flotar:=create_tween().set_loops()
+	flotar.tween_property(imagen,"position:y",170.0,1.4).set_trans(Tween.TRANS_SINE)
+	flotar.tween_property(imagen,"position:y",182.0,1.4).set_trans(Tween.TRANS_SINE)
 func actualizar() -> void:
 	seleccion = ""
 	saldo.text = "Saldo: $%d  ·  Todo a $1  ·  Mochila: máximo 6 suministros" % escuela.campana.monedas if tienda else "Suministros %d/6 · Cada unidad ocupa un espacio · Evidencias en carpeta separada" % Mochila.usados(escuela.jugador.inventario)
@@ -115,8 +122,52 @@ func actualizar() -> void:
 		var titulo:=Label.new();titulo.text=item+(" · $1" if tienda else (" ×%d"%cantidades[item] if cantidades[item]>1 else ""))
 		titulo.position=Vector2(8,94);titulo.size=Vector2(164,40);titulo.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;titulo.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;titulo.add_theme_font_size_override("font_size",16);b.add_child(titulo)
 		b.focus_entered.connect(func(): seleccionar(item));b.mouse_entered.connect(func(): seleccionar(item));b.pressed.connect(func(): seleccionar(item);usar.grab_focus())
+		# Franja de categoría y realce animado del icono (se añaden después: el icono sigue siendo el hijo 0).
+		var franja:=ColorRect.new();franja.color=color_categoria(datos(item)[1]);franja.size=Vector2(180,4);franja.mouse_filter=Control.MOUSE_FILTER_IGNORE;b.add_child(franja)
+		icono.pivot_offset=Vector2(44,40)
+		b.focus_entered.connect(func(): resaltar(icono,true));b.focus_exited.connect(func(): resaltar(icono,false))
+		b.mouse_entered.connect(func(): resaltar(icono,true));b.mouse_exited.connect(func(): resaltar(icono,false))
 	if rejilla.get_child_count()>0:call_deferred("enfocar_seguro",rejilla.get_child(0));seleccionar(objetos[pagina*12])
+func color_categoria(categoria: String) -> Color:
+	if categoria.begins_with("EVIDENCIA") or categoria.begins_with("MISIÓN"): return Color("d5b478")
+	if categoria.begins_with("CONSUMIBLE") or categoria.begins_with("RECUPERACIÓN"): return Color("7fd6a8")
+	if categoria.begins_with("LLAVE"): return Color("e8e2a0")
+	if categoria.begins_with("EQUIPO") or categoria.begins_with("HERRAMIENTA"): return Color("6fb3e0")
+	return Color("e37c6a")
+func resaltar(icono: TextureRect, activo: bool) -> void:
+	if not is_instance_valid(icono) or not icono.is_inside_tree(): return
+	var t:=icono.create_tween()
+	t.tween_property(icono,"scale",Vector2.ONE*(1.14 if activo else 1.0),.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+func cerrar_misiones() -> void:
+	if is_instance_valid(panel_misiones): panel_misiones.queue_free()
+	panel_misiones=null
+func misiones() -> void:
+	if is_instance_valid(panel_misiones):
+		cerrar_misiones()
+		if rejilla.get_child_count()>0: rejilla.get_child(0).grab_focus()
+		return
+	panel_misiones=PanelContainer.new();panel_misiones.position=Vector2(60,150);panel_misiones.size=Vector2(770,470)
+	panel_misiones.add_theme_stylebox_override("panel",estilo(Color("0d1820"),Color("d5b478")))
+	var texto:=RichTextLabel.new();texto.bbcode_enabled=true;texto.scroll_active=true
+	texto.custom_minimum_size=Vector2(740,440);texto.add_theme_font_size_override("normal_font_size",16)
+	var bb:=""
+	for nivel in escuela.campana.lista_misiones():
+		var tareas: Array=nivel[1]
+		var hechas:=0
+		for tarea in tareas:
+			if tarea[1]: hechas+=1
+		bb+="[color=#d5b478]%s   %d / %d[/color]\n"%[nivel[0],hechas,tareas.size()]
+		for tarea in tareas:
+			bb+=("[color=#7fd6a8]   [lb]X[rb]  %s[/color]\n" if tarea[1] else "[color=#c9d6d4]   [lb]  [rb]  %s[/color]\n")%tarea[0]
+		bb+="\n"
+	texto.text=bb
+	panel_misiones.add_child(texto);raiz.add_child(panel_misiones)
+	panel_misiones.modulate.a=0;create_tween().tween_property(panel_misiones,"modulate:a",1.0,.2)
+	nombre.text="MISIONES";imagen.texture=preload("res://assets/sprites/expediente.png")
+	detalle.text="Objetivo actual:\n"+escuela.campana.objetivo();seleccion=""
+	usar.text="Volver a objetos";usar.grab_focus()
 func seleccionar(item: String) -> void:
+	cerrar_misiones()
 	if is_instance_valid(descartar): descartar.disabled = not Mochila.ocupa(item)
 	if seleccion==item:return
 	if animacion_detalle:animacion_detalle.kill()
@@ -124,7 +175,7 @@ func seleccionar(item: String) -> void:
 	animacion_detalle=create_tween()
 	animacion_detalle.tween_property(imagen,"modulate:a",1,.15)
 	seleccion=item;nombre.text=item;imagen.texture=load("res://assets/sprites/"+datos(item)[0]);detalle.text=datos(item)[1]+"\n\n"+datos(item)[2]
-	usar.text="Beber · +15 cordura" if item=="Termo de cafe" else ("Descargar extintor" if item=="Extintor" else ("Lanzar distracción" if item=="Grapadora" else "Conservar · volver a objetos"))
+	usar.text="Beber · +15 cordura" if item=="Termo de cafe" else ("Descargar extintor" if item=="Extintor" else ("Mostrar gafete · 12 s sin ser archivado" if item=="Gafete de prefectura" else ("Lanzar distracción" if item=="Grapadora" else "Conservar · volver a objetos")))
 	if Productos.PRODUCTOS.has(item):
 		usar.text = ("Comprar · $1" if escuela.campana.monedas > 0 else "Sin monedas · necesitas $1") if tienda else "Consumir una unidad"
 func cambiar(direccion: int) -> void:
@@ -157,6 +208,12 @@ func utilizar() -> void:
 		j.inventario.erase(seleccion);j.cordura=minf(100,j.cordura+15);escuela.sonidos.efecto("recoger",Vector2.INF,-20);actualizar()
 	elif seleccion=="Grapadora" and j.inventario.has(seleccion):
 		escuela.continuar();j.distraer()
+	elif seleccion=="Gafete de prefectura" and j.inventario.has(seleccion):
+		# Plan de trabajo: gafete de un solo uso.
+		j.inventario.erase(seleccion);escuela.continuar()
+		escuela.archivero.ignorar=12.0
+		escuela.sonidos.efecto("sello",j.position,-12)
+		j.mensaje="Gafete visible: durante 12 s el Archivero te trata como personal. Aprovecha."
 	elif seleccion=="Extintor" and j.inventario.has(seleccion):
 		j.inventario.erase(seleccion);escuela.continuar()
 		var a: CharacterBody2D=escuela.archivero
@@ -167,6 +224,7 @@ func utilizar() -> void:
 	else:
 		if rejilla.get_child_count()>0:rejilla.get_child(0).grab_focus()
 func diario() -> void:
+	cerrar_misiones()
 	nombre.text="TESTIMONIOS";imagen.texture=preload("res://assets/sprites/expediente.png")
 	var texto: String="Tu expediente fue cerrado sin tu firma. Busca a quienes todavía recuerdan su nombre."
 	if escuela.campana.hechos.get("computo",false):texto="La de Cómputo quedó encerrada. Su memoria USB está enterrada en el patio."
@@ -175,6 +233,9 @@ func diario() -> void:
 	var recuerdos: Array[String]=[]
 	for i in range(4):
 		if escuela.campana.hechos.get("testimonio_%d"%(i+1),false):recuerdos.append(preload("res://src/story/ecos_memoria.gd").RELATOS[i])
+	# Los documentos leídos se guardan en el mismo diario.
+	for doc in preload("res://src/story/documentos.gd").DOCUMENTOS:
+		if escuela.campana.hechos.get("documento_%d"%doc[0],false):recuerdos.append(str(doc[2])+" · "+str(doc[3]).replace("\n"," "))
 	if not recuerdos.is_empty():
 		diario_indice=(diario_indice+1)%recuerdos.size()
 		texto=recuerdos[diario_indice]+"\n\n%d / %d · pulsa Testimonios para el siguiente"%[diario_indice+1,recuerdos.size()]
